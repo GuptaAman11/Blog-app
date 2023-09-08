@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
+const comment = require("../models/comment")
+
 const PostSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unique: true
+        
     },
     desc: {
         type: String,
@@ -11,17 +13,22 @@ const PostSchema = new mongoose.Schema({
     },
     photo: {
         type: String,
-        required: false,
+
     },
-    username: {
-        type: String,
-        required: true,
-        unique: true,
+    author: {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+      
+        
     },
     catgories: {
         type: Array,
-        required: true,
     },
+
+    comments: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref:"comment"
+    }]
 },
     {timestamps: true}
     );

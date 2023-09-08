@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const Post = require("../models/Post");
+const Post = require("../models/post");
 
 //for NEW POST
-router.post("/", async (req, res) => {
+const createPost = async (req, res) => {
     const newPost = new Post(req.body);
     try {
         const savedPost = await newPost.save();
@@ -11,10 +11,10 @@ router.post("/", async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-});
+};
 
 // for UPDATE POST
-router.put("/:id", async (req, res) => {
+const updatePost= async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         if (post.username === req.body.username) {
@@ -35,10 +35,10 @@ router.put("/:id", async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-});
+};
 
 // for DELETE POST
-router.delete("/:id", async (req, res) => {
+const deletePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         if (post.username === req.body.username) {
@@ -54,15 +54,19 @@ router.delete("/:id", async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-});
+};
 
 // for GET POST
-router.get("/:id", async (req, res) => {
+const getPost= async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
+        const post = await Post.find();
         res.status(200).json(post);
     } catch (err) {
         res.status(500).json(err);
     }
-});
+};
+
+module.exports ={
+    createPost , deletePost , updatePost , getPost
+}
 

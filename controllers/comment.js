@@ -1,10 +1,10 @@
 
 const post = require('./models/post.js')
-const comment = require('./models/cpmment.js')
+const comment = require('./models/comment.js')
 
-app.post('/blogs/:blogId/comments', async (req, res) => {
+const comments =  async (req, res) => {
     try {
-      const { comment, user } = req.body;
+      const { text } = req.body;
       const postId = req.params.postId;
   
       if (!mongoose.isValidObjectId(postId)) {
@@ -18,8 +18,7 @@ app.post('/blogs/:blogId/comments', async (req, res) => {
       }
   
       const newComment = new Comment({
-        text: comment,
-        user: user,
+        text: comment
       });
   
       await newComment.save();
@@ -30,4 +29,7 @@ app.post('/blogs/:blogId/comments', async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' });
     }
-  });
+  };
+  module.exports ={
+    comments
+  }
