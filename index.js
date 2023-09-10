@@ -20,3 +20,8 @@ app.get('/', (req, res) => {
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/post', postRoutes);
 app.use('/api/v1/comment', commentRoutes);
+
+//category routes
+const category_route = require("./routes/categoryRoutes");
+app.use('/api',category_route);
+
