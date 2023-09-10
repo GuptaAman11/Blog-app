@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const comment = require("../models/comment")
+
+const Post = require("../models/User");
+
 
 const PostSchema = new mongoose.Schema({
     title: {
@@ -16,8 +18,10 @@ const PostSchema = new mongoose.Schema({
 
     },
     author: {
+        
         type: mongoose.Types.ObjectId,
         ref: "User"
+    
       
         
     },
