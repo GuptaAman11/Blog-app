@@ -80,10 +80,11 @@ const deletePost = async (req, res) => {
 const getPost= async (req, res) => {
 
     const user = req.user._id;
+    console.log(user)
     try {
 
-        if(user){
-            const post = await Post.findById(user);
+        if(true){
+            const post = await Post.find();
             res.status(200).json(post);
         }
         

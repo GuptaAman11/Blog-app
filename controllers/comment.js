@@ -41,10 +41,45 @@ const User = require('../models/User');
 
 
  const getComments = async (req, res) => {
+    
+    try {
+
+        if(true){
+            const comment = await Comment.find();
+            res.status(200).json(comment);
+        }
+        
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
   
 }
 
  const deleteComment = async (req, res) => {
+    try{
+        const user = req.user._id
+       const {commentId} = req.params;
+
+       const comment = await Comment.findById(commentId)
+
+       if(!comment){
+        res.status(401).json({msg : "comment not found"});
+
+       }
+
+       if(comment.author.toString() === user.toString() )
+                {
+                    await Comment.findByIdAndDelete(commentId);
+                    return res.status(200).json("Post has been deleted");
+            }
+            else{
+                return res.status(500).json({msg:"error"})
+            }
+    }
+    catch(err){
+
+    }
   
 }
 
