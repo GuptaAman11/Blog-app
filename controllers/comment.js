@@ -1,33 +1,53 @@
+const Comment = require('../models/comment');
+const Post = require('../models/post');
+const User = require('../models/User');
 
-const post = require('./models/post.js')
-const comment = require('./models/cpmment.js')
+ const newComment = async (req, res) => {
+    const {comment} = req.body ; 
+    const {postId} = req.params;
+   
+    
 
-app.post('/blogs/:blogId/comments', async (req, res) => {
-    try {
-      const { comment, user } = req.body;
-      const postId = req.params.postId;
-  
-      if (!mongoose.isValidObjectId(postId)) {
-        return res.status(400).json({ message: 'Invalid blog ID' });
-      }
-  
-      const post = await post.findById(postId);
-  
-      if (!post) {
-        return res.status(404).json({ message: 'Blog not found' });
-      }
-  
-      const newComment = new Comment({
-        text: comment,
-        user: user,
-      });
-  
-      await newComment.save();
-  
-      blog.comments.push(newComment);
-      await blog.save();
-  
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' });
+    if(!comment){
+        res.status(404).json({msg : "comment cant be empty"});
+
     }
-  });
+
+    const post = await Post.findById(postId);
+
+    if(!post){
+        res.status(404).json({msg : "post not found"})
+    }
+    try {
+        const user = req.user._id;
+        
+       
+        console.log(user)
+        const addComment = await Comment.create({
+            comment :comment,
+            author : user,
+            postId : post
+        });
+        await addComment.save();
+        res.status(200).json(addComment);
+
+        
+        
+    }
+    catch(err){
+        console.log(err)
+    }
+};
+
+
+ const getComments = async (req, res) => {
+  
+}
+
+ const deleteComment = async (req, res) => {
+  
+}
+
+module.exports = {
+    newComment , getComments , deleteComment
+}

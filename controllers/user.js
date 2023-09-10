@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken')
 
 const register = async (req, res) => {
     const { email, name, password } = req.body;
-    console.log(email)
     try {
         if (!email || !name || !password) {
             res.json({ mssg: "all fields are required" })
@@ -16,7 +15,7 @@ const register = async (req, res) => {
             res.json({ mssg: "user already exists" })
         }
 
-        const hashedpassword = bcrypt.hash(password, 10);
+       const hashedpassword = await bcrypt.hash(password, 10);
         const newUser = new User(
             {
                 name: name,
@@ -48,7 +47,7 @@ const login = async (req, res) => {
         }
         const comparepassword = await bcrypt.compare(password, user.password)
         if (comparepassword) {
-            const token = jwt.sign({ id: email._id }, 'secret_key', { expiresIn: '1h' })
+            const token = jwt.sign({ user : user }, 'secret_key', { expiresIn: '1h' })
             res.json({ mssg: "user logged in succesfully", user: user, token: token })
         }
 
