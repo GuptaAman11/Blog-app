@@ -28,6 +28,8 @@ const User = require('../models/User');
             author : user,
             postId : post
         });
+        post.comments.push(addComment._id);
+        await post.save();
         await addComment.save();
         res.status(200).json(addComment);
 
@@ -83,6 +85,26 @@ const User = require('../models/User');
   
 }
 
+const getCommentById = async (req,res) => {
+    const {postId} = req.params ; 
+    try{
+    const post =await Post.findById(postId)
+        if(!post) {
+            res.status(401).json({msg: "post not found"})
+        }
+        const comment =await Comment.find({postId:postId})
+        if(!comment){
+            res.status(401).json({msg: "comment not found"})
+    
+        }
+        res.status(200).json({comment:comment});
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error})
+    }
+
+}
+
 module.exports = {
-    newComment , getComments , deleteComment
+    newComment , getComments , deleteComment , getCommentById
 }

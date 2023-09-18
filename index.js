@@ -3,6 +3,7 @@ const { connection } = require('./db')
 const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post')
 const commentRoutes = require('./routes/comment')
+const likeRoutes = require('./routes/like')
 
 const app = express()
 
@@ -20,3 +21,4 @@ app.get('/', (req, res) => {
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/post', postRoutes);
 app.use('/api/v1/comment', commentRoutes);
+app.use('/api/v1/like', likeRoutes);
