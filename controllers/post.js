@@ -80,10 +80,11 @@ const deletePost = async (req, res) => {
 const getPost= async (req, res) => {
 
     const user = req.user._id;
+    console.log(user)
     try {
 
-        if(user){
-            const post = await Post.findById(user);
+        if(true){
+            const post = await Post.find();
             res.status(200).json(post);
         }
         
@@ -93,7 +94,30 @@ const getPost= async (req, res) => {
     }
 };
 
+const getPostById=async(req,res)=>{
+    const {UserId}=req.params;
+    try {
+        const user=await User.findById(UserId);
+        if(!user){
+            res.status(401).json({"mssg":"user not found"})
+        }
+
+        const posts=await Post.find({author:UserId}).populate('author')
+        const qty=posts.length;
+        console.log(qty)
+        if(!posts){
+            res.status(401).json({"mssg":"posts not found",qty:posts})
+        }
+
+        res.status(200).json({posts:posts,qty:qty});
+    } catch (error) {
+        
+        res.status(500).json(error);
+    }
+
+}
+
 module.exports ={
-    createPost , deletePost , updatePost , getPost
+    createPost , deletePost , updatePost , getPost,getPostById
 }
 
