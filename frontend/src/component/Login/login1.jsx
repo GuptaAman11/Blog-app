@@ -10,8 +10,8 @@ const Login1 = () => {
        try {
          const response = await fetch(`http://localhost:8000/api/v1/users/login` ,{
              method : 'POST',
-             header : {
-                 'Content-Type' : 'Application/Json'
+             headers : {
+                 'Content-Type' : 'application/json'
              },
  
              body: JSON.stringify({
