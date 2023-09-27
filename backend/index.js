@@ -4,8 +4,10 @@ const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post')
 const commentRoutes = require('./routes/comment')
 const likeRoutes = require('./routes/like')
+const cors = require('cors')
 
 const app = express()
+app.use(cors())
 
 
 
