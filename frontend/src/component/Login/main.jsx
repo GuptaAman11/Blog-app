@@ -1,6 +1,6 @@
 import React from 'react'
-import Signup from './signup'
-import Login1 from './login1'
+import Signup from './Signup'
+import Login1 from './Login1'
 import '../../css/login.css'
 
 

@@ -18,14 +18,14 @@ const Login1 = () => {
                  
                  email: loginData.loginEmail,
                  password: loginData.loginPassword,
-             })
+             }),
  
          })
          const responseData = await response.json();
          if (response.ok) {
             //  toast.success('user created');
             console.log(responseData)
-             
+             localStorage.setItem('token',responseData.token)
          }
          else {
             //  toast.error(response.error)
