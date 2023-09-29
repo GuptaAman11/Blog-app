@@ -17,13 +17,13 @@ const PostForm =() => {
           'Authorization': `Bearer ${authToken}`
         }
         , 
-       body :({
+       body :JSON.stringify({
           title : postFormData.postTitle ,
           desc : postFormData.postTitle
         }),
     })
 
-    const responseData = await response.json ;
+    const responseData = await response.json();
     if(response.ok){
       console.log(responseData)
     }
