@@ -1,0 +1,135 @@
+html {
+    font-size: 62.5%;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  li {
+    list-style: none;
+  }
+
+  .main-nav{
+    background: skyblue;
+    width: 100%;
+    height: 10rem;
+    display: grid;
+    grid-template-columns: 10rem 1fr 10rem;
+    padding: 0.5%;
+  }
+
+  .logo{
+    display:grid;
+    justify-content: center;
+    align-items: center;
+    /* background: skyblue; */
+    grid-column: 1/2;
+  }
+
+
+  .menu-link {
+    grid-column: 2/3;
+  }
+
+  .menu-link ul {
+    height: 10rem;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+  }
+
+  /* .menu-link ul li {
+    width: 120px;
+    margin: 15px;
+    padding: 15px;
+  } */
+
+  .logo h1 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .logo h2 span {
+    font-size: 3.5rem;
+  }
+
+  .menu-link ul li {
+    font-size: 1.8rem;
+  }
+  
+  .menu-link ul li a {
+    text-transform: capitalize;
+    color: rgba(0, 0, 3, 0.8);
+    transition: 0.5s;
+  }
+  .menu-link ul li:hover > a {
+    transform-origin: left;
+    color: rgba(0, 0, 3, 1);
+    text-decoration: underline;
+    transition: 0.5s;
+  }
+
+  .dropdown-menu {
+    display: grid;
+    position: absolute;
+    top: 70px;
+    left: 450px;
+    width: 120px;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid black;
+    background-color:  peru;
+    /* justify-content: center; */
+  }
+
+  .dropdown-menu ul {
+    display: grid;
+    margin: 0px;
+    text-align: start;
+    /* justify-content: left; */
+  }
+
+
+  .dropdown-menu ul li {
+    display: grid;
+    padding: 7px;
+    width: 100px;
+    text-align: start;
+  }
+
+  /* .menu-link input[type=text] {
+    float: right;
+    position: absolute;
+    padding: 6px;
+    border: 1px;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+  } */
+
+  .profile-menu {
+    display: grid;
+    align-items: center;
+  }
+  
+  .mysection {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .mysection p {
+    font-size: 3rem;
+    text-transform: capitalize;
+  }
+  
+  .mysection h1 {
+    font-size: 4rem;
+    text-transform: uppercase;
+    text-align: center;
+  }
