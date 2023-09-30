@@ -1,0 +1,17 @@
+.container{
+    background: white;
+    width: 600px;
+    border: 15px solid blue;
+    padding: 50px;
+    margin: 40px;
+
+}
+
+.heading {
+    margin: 30px;
+}
+
+.container h3{
+    color: aqua;
+    height: 30px;
+}
