@@ -1,0 +1,7 @@
+.post {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    flex-wrap: wrap;
+    padding: 10px;
+}

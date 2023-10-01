@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import '../../css/login.css'
+import {NavLink,useNavigate} from 'react-router-dom'
+
 
 const Login1 = () => {
+    const navigate = useNavigate()
     const [loginData , setloginData] = useState({
         loginEmail : "" , loginPassword:""
     })
@@ -57,8 +60,11 @@ const Login1 = () => {
     }
     const handleOnSubmit= async(e)=>{
         e.preventDefault();
-        await login()
+        await login().then(()=>{
+            navigate('/')
+        })
         console.log(loginData)
+
     }
         
 

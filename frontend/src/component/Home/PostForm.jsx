@@ -7,6 +7,7 @@ const PostForm =() => {
     postTitle : ""  , postDesc : ""
   })
 
+
   const addPost = async()=>{
     try {
       const authToken = localStorage.getItem('token')
@@ -30,18 +31,15 @@ const PostForm =() => {
 
     else {
       console.log(response.error)
-    }
-
-
-
-    
-
-      
+    } 
     } catch (error) {
       console.log(error)
       
     }
   }
+
+
+
 
   
 
@@ -60,6 +58,7 @@ const PostForm =() => {
     await addPost();
     console.log(postFormData)
   }
+
   return (
 
     <div className="Postform">
@@ -91,6 +90,9 @@ const PostForm =() => {
             <button type="submit">Post</button>
           </div>
         </form>
+      </div>
+      <div>
+
       </div>
     </div>
   );
