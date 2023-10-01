@@ -5,3 +5,8 @@
     flex-wrap: wrap;
     padding: 10px;
 }
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}

@@ -4,7 +4,7 @@ import '../../css/postcard.css'
 const PostCard = ({post}) => {
   return (
     <div className="container-fluid">
-    <div className="card">.
+    <div className="card" >.
     
          
         <img src="building1.webp" alt="building" className="building1" />

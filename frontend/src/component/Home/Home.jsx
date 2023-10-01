@@ -4,10 +4,12 @@ import PostForm from './PostForm'
 import Navbar from './Navbar'
 import { useEffect ,useState } from 'react'
 import '../../css/home.css'
-import {NavLink} from 'react-router-dom'
+import {NavLink, Navigate, useNavigate ,useParams,Link} from 'react-router-dom'
+import LikeHook from './LikeHook'
 
 
 const Home = () => {
+  const Navigate = useNavigate()
   const[posts ,setposts] = useState([])
 
 
@@ -32,6 +34,7 @@ const Home = () => {
   useEffect(()=>{
     getPost()
   },[])
+
   return (
     <div>
         <Navbar />
@@ -40,12 +43,18 @@ const Home = () => {
         {
           posts.map((post)=>(
 
-            <PostCard post={post}/>
+            <Link to={`/blogview/${post._id}`} className='link'>
+            
+              <PostCard post={post}/>
+            </Link>
+          
 
 
           ))
         }
+
         </div>
+        <div><LikeHook /></div>
     </div>
   )
 }

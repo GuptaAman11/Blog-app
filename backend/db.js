@@ -1,6 +1,11 @@
-const mongoose = require('mongoose')
 
-const url = 'mongodb+srv://amangupta9579:aman@cluster0.vyehgry.mongodb.net/test?retryWrites=true&w=majority'
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+dotenv.config()
+const username = process.env.DB_USERNAME
+const password = process.env.DB_PASSWORD
+
+const url = `mongodb+srv://${username}:${password}@cluster0.vyehgry.mongodb.net/test?retryWrites=true&w=majority`
 
 const connection = () => {
     mongoose.connect(url).then(() => {

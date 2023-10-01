@@ -93,7 +93,7 @@ const getPost= async (req, res) => {
         res.status(500).json(err);
     }
 };
-
+// finding post by user id
 const getPostById=async(req,res)=>{
     const {UserId}=req.params;
     try {
@@ -117,7 +117,24 @@ const getPostById=async(req,res)=>{
 
 }
 
+const getPostByPostId = async(req,res)=>{
+    try {
+        const {postId}= req.params
+        const post = await Post.findById(postId)
+        if(!post){
+            res.status(401).json({msg:"post not found"})
+        }
+        res.status(200).json(post)
+    } catch (error) {
+        res.status(500).json(error);
+        
+    }
+
+
+
+}
+
 module.exports ={
-    createPost , deletePost , updatePost , getPost,getPostById
+    createPost , deletePost , updatePost , getPost,getPostById,getPostByPostId
 }
 
