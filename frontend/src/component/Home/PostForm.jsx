@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../css/postform.css'
 
+
 const PostForm =() => {
+  const [file , setfile] = useState('')
 
   const [postFormData , setpostFormData] = useState({
-    postTitle : ""  , postDesc : ""
+    postTitle : ""  , postDesc : "" ,postPicture :""
   })
 
 
@@ -20,7 +22,7 @@ const PostForm =() => {
         , 
        body :JSON.stringify({
           title : postFormData.postTitle ,
-          desc : postFormData.postTitle
+          desc : postFormData.postDesc
         }),
     })
 
@@ -38,9 +40,47 @@ const PostForm =() => {
     }
   }
 
+  useEffect(() => {
+    const getImage = async () => {
+      if (file) {
+        const data = new FormData();
+        data.append('name', file.name);
+        data.append('file', file);
+        console.log(file);
+
+        const formDataWithField = new FormData();
+        formDataWithField.append('data', data);
+  
+        // You may want to send an API request with 'data' here if needed
+        // Make sure to define the purpose of this request
+        try {
+
+          const response = await fetch('http://localhost:8000/api/v1/post/file/upload', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: formDataWithField,
+          });
 
 
+          if (response.ok) {
+            const responseData = await response.json();
+            postFormData.postPicture = responseData.data;
+            console.log(responseData);
+          }
+    
 
+  
+          // Handle the response as needed
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+  
+    getImage();
+  }, [file]);
   
 
   const handleOnChange =(e)=>{
@@ -87,6 +127,7 @@ const PostForm =() => {
             />
           </div>
           <div className="form-group">
+            <input type='file' onChange={(e)=>setfile(e.target.files[0])}/>
             <button type="submit">Post</button>
           </div>
         </form>

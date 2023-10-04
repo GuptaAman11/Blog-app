@@ -14,17 +14,16 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    photo: {
-        type: String,
 
-    },
     author: {
         
         type: mongoose.Types.ObjectId,
         ref: "User"
-    
-      
-        
+  
+    },
+    picture :{
+        type : String , 
+        required : false
     },
     catgories: {
         type: Array,
