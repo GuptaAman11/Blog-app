@@ -9,6 +9,9 @@ const PostForm =() => {
     postTitle : ""  , postDesc : "" ,postPicture :""
   })
 
+  const url = postFormData.picture ? postFormData.picture : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
+
+
 
   const addPost = async()=>{
     try {
@@ -22,7 +25,8 @@ const PostForm =() => {
         , 
        body :JSON.stringify({
           title : postFormData.postTitle ,
-          desc : postFormData.postDesc
+          desc : postFormData.postDesc,
+          picture : postFormData.postPicture
         }),
     })
 
@@ -41,46 +45,34 @@ const PostForm =() => {
   }
 
   useEffect(() => {
-    const getImage = async () => {
+    const uploadImage = async () => {
       if (file) {
-        const data = new FormData();
-        data.append('name', file.name);
-        data.append('file', file);
-        console.log(file);
+        const formData = new FormData();
+        formData.append('name',file.name)
+        formData.append('file', file);
 
-        const formDataWithField = new FormData();
-        formDataWithField.append('data', data);
-  
-        // You may want to send an API request with 'data' here if needed
-        // Make sure to define the purpose of this request
         try {
-
           const response = await fetch('http://localhost:8000/api/v1/post/file/upload', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: formDataWithField,
+            body: formData,
           });
-
 
           if (response.ok) {
             const responseData = await response.json();
-            postFormData.postPicture = responseData.data;
-            console.log(responseData);
+            console.log("this is the response data" ,responseData);
+            postFormData.postPicture = responseData
+          } else {
+            console.error('Image upload failed');
           }
-    
-
-  
-          // Handle the response as needed
         } catch (error) {
-          console.log(error);
+          console.error('Error uploading image:', error);
         }
       }
     };
-  
-    getImage();
+
+    uploadImage();
   }, [file]);
+  
   
 
   const handleOnChange =(e)=>{
@@ -89,6 +81,7 @@ const PostForm =() => {
 
         ...postFormData , 
         [name] : value
+
 
       })
   }
@@ -144,3 +137,4 @@ const PostForm =() => {
    
 
 export default PostForm
+

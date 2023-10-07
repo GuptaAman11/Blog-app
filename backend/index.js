@@ -1,5 +1,5 @@
 const express = require('express')
-const { connection } = require('./db')
+const { Connection } = require('./db')
 const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post')
 const commentRoutes = require('./routes/comment')
@@ -15,7 +15,7 @@ app.listen(8000, () => {
     console.log("server started")
 })
 app.use(express.json())
-connection();
+Connection();
 app.get('/', (req, res) => {
     res.send('hello world')
 })

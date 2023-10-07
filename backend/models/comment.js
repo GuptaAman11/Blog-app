@@ -4,6 +4,11 @@ const post = require('../models/post')
 
 const CommentSchema = mongoose.Schema({
 
+    comment: {
+        type: String,
+        required: true
+    },
+
     author : {
         type : mongoose.Types.ObjectId,
         ref : "User" 
@@ -14,17 +19,10 @@ const CommentSchema = mongoose.Schema({
         ref : "Post"
     },
 
-    likes : [{
-        type : mongoose.Types.ObjectId,
-        ref : "Comment"
 
-    }],
   
    
-    comment: {
-        type: String,
-        required: true
-    }
+    
 });
 
 

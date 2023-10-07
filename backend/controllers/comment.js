@@ -88,10 +88,7 @@ const User = require('../models/User');
 const getCommentById = async (req,res) => {
     const {postId} = req.params ; 
     try{
-    const post =await Post.findById(postId)
-        if(!post) {
-            res.status(401).json({msg: "post not found"})
-        }
+ 
         const comment =await Comment.find({postId:postId})
         if(!comment){
             res.status(401).json({msg: "comment not found"})
@@ -104,6 +101,10 @@ const getCommentById = async (req,res) => {
     }
 
 }
+
+
+
+
 
 module.exports = {
     newComment , getComments , deleteComment , getCommentById

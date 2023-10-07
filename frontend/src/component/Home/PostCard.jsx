@@ -2,12 +2,15 @@ import React from 'react'
 import '../../css/postcard.css'
 
 const PostCard = ({post}) => {
+
+  const url = post.picture ? post.picture : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
+
   return (
     <div className="container-fluid">
-    <div className="card" >.
+    <div className="card" >
     
          
-        <img src="building1.webp" alt="building" className="building1" />
+        <img src={url} alt="building" className="building1" />
         <h1 className="heading">{post.title}</h1>
         <div className="text">
             

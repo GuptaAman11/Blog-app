@@ -1,7 +1,8 @@
 const grid = require('gridfs-stream');
 const mongoose = require('mongoose');
 
-const url = 'http://localhost:8000';
+
+const url = 'http://localhost:8000/api/v1/post';
 
 
 let gfs, gridfsBucket;
@@ -31,8 +32,10 @@ const getImage = async (request, response) => {
         // readStream.pipe(response);
         const readStream = gridfsBucket.openDownloadStream(file._id);
         readStream.pipe(response);
+        console.log("image get sucessfully")
     } catch (error) {
         response.status(500).json({ msg: error.message });
+        console.log(error)
     }
 }
 

@@ -12,6 +12,9 @@ const Home = () => {
   const Navigate = useNavigate()
   const[posts ,setposts] = useState([])
 
+  const url = posts.picture ? posts.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
+
+
 
   const getPost = async()=>{
     const authToken = localStorage.getItem('token')
@@ -26,7 +29,7 @@ const Home = () => {
     if(response.ok){
       setposts(responseData)
       // console.log(responseData)
-      console.log("post from set posts", posts)
+      
       
     }
   }

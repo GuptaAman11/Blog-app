@@ -1,19 +1,23 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const Post = require("../models/post");
+const {uploadImage} = require("./uploadimage")
 
 //for NEW POST
 const createPost = async (req, res) => {
-    const {title,desc}=req.body;
+    const {title,desc ,picture}=req.body;
+
 
     try {
         const user = req.user._id
         const savedPost= await Post.create({
             title : title , 
             desc : desc,
-            author :  user
+            author :  user ,
+            picture : picture
         });
         res.status(200).json(savedPost);
+        console.log(picture)
     } catch (err) {
         res.status(500).json(err);
     }

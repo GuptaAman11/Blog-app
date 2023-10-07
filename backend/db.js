@@ -7,12 +7,12 @@ const password = process.env.DB_PASSWORD
 
 const url = `mongodb+srv://${username}:${password}@cluster0.vyehgry.mongodb.net/test?retryWrites=true&w=majority`
 
-const connection = () => {
+const Connection = () => {
     mongoose.connect(url).then(() => {
         console.log("concttioned!!!")
     })
 }
 
 module.exports = {
-    connection
+    Connection
 }
