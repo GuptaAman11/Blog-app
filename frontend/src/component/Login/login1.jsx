@@ -4,6 +4,7 @@ import {NavLink,useNavigate} from 'react-router-dom'
 
 
 const Login1 = () => {
+    const [user,setUser] = useState("");
     const navigate = useNavigate()
     const [loginData , setloginData] = useState({
         loginEmail : "" , loginPassword:""
@@ -26,8 +27,9 @@ const Login1 = () => {
          })
          const responseData = await response.json();
          if (response.ok) {
+            await setUser(responseData)
             //  toast.success('user created');
-            console.log(responseData)
+            console.log(user)
              localStorage.setItem('token',responseData.token)
          }
          else {

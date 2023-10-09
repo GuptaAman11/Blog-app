@@ -1,0 +1,30 @@
+.primary{
+    color: orange;
+   font-size: 60px;
+   padding: 10px 580px;
+}
+
+.imgstyle{
+    padding: 10px 600px;  
+    width: 250px;  
+}
+
+.Button{
+    background-color: rgb(26, 8, 187);
+  color: white;
+  font-size: 20px;
+  
+ 
+  border-radius: 5px;
+ 
+  cursor: pointer;
+}
+/* .field{
+    padding: 10px 460px;   
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    line-height: 60px;
+    
+    justify-content: center;
+} */

@@ -41,8 +41,8 @@ import React, { useState } from "react";
                             <input type="search" placeholder="search" id="find"></input> 
                         </ul>
                     </div>
-                    <div className="profile-menu">
-                        <FaUser />
+                    <div  className="profile-menu">
+                       <a href="/Profile"> <FaUser /></a>
                     </div>
      
                     

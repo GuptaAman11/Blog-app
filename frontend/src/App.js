@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './component/Home/Home';
 
 import Blogview from './component/BlogView/Blogview';
-
+import Profile from './component/Profile'
 
 function App() {
   return (
@@ -19,7 +19,8 @@ function App() {
           <Route path='/' element={<Home />} />
         
           <Route path='/blogview/:postId' element={<Blogview />} />
-
+          <Route path='Profile' element={<Profile/>} />
+         
         </Routes>
       
     </Router>

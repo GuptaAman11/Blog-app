@@ -24,4 +24,4 @@ app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/post', postRoutes);
 app.use('/api/v1/comment', commentRoutes);
 app.use('/api/v1/like', likeRoutes);
-
+// app.use("/api/users",userRoutes)
