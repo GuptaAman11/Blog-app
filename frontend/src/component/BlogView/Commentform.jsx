@@ -87,12 +87,13 @@ const Commentform=({post})=> {
 
 
 
+
     return (
         <div className='comment-form'>
             <h1>ADD A COMMENT</h1>
             <form  onSubmit={handleOnSubmit}>
                 <input type='text' className='comment-input' placeholder='Write your comment'
-              name='comment' onChange={handleOnChange}/>
+              name='commentData' onChange={handleOnChange}/>
                 <button className='submit'>Submit</button>
             </form>
             <div>

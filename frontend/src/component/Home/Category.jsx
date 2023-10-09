@@ -13,9 +13,9 @@ const Category = () => {
         <tr>
           {Value.map((category) => (
             <td key={category.id} className="category-cell">
-              <Link to={`catpost/?category=${category.type}`}>
+          
                 {category.type}
-              </Link>
+              
             </td>
           ))}
         </tr>

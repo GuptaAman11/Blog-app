@@ -9,7 +9,7 @@ const User = require('../models/User');
     
 
     if(!comment){
-        res.status(404).json({msg : "comment cant be empty"});
+        res.status(401).json({msg : "comment cant be empty"});
 
     }
 
@@ -28,10 +28,11 @@ const User = require('../models/User');
             author : user,
             postId : post
         });
+        res.status(200).json(addComment);
+
         post.comments.push(addComment._id);
         await post.save();
         await addComment.save();
-        res.status(200).json(addComment);
 
         
         

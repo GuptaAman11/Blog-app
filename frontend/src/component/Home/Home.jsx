@@ -12,6 +12,7 @@ import Category from './Category'
 const Home = () => {
   const Navigate = useNavigate()
   const[posts ,setposts] = useState([])
+  const[fetchPost , setFetchPost] = useState(false)
 
   const url = posts.picture ? posts.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
 
@@ -37,22 +38,26 @@ const Home = () => {
   
   useEffect(()=>{
     getPost()
-  },[])
+  },[fetchPost])
 
   return (
     <div>
         <Navbar />
-        <PostForm />
+        <PostForm setFetchPost={setFetchPost}/>
         <Category />
         <div className='post'>
         {
           posts.map((post)=>(
 
-            <Link to={`/blogview/${post._id}`} className='link'>
-            
-              <PostCard post={post}/>
-            </Link>
+            <>
           
+            <Link>
+              <PostCard post={post}/>
+              <Category />
+              </Link>
+        
+            
+          </>
 
 
           ))
@@ -64,4 +69,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home 

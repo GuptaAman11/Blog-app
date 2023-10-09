@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react'
 import '../../css/postform.css'
 
 
-const PostForm =() => {
+const PostForm =({setFetchPost}) => {
   const [file , setfile] = useState('')
 
   const [postFormData , setpostFormData] = useState({
-    postTitle : ""  , postDesc : "" ,postPicture :""
+    postTitle : ""  , postDesc : "" ,postPicture :"" ,postCategory :""
   })
 
   const url = postFormData.picture ? postFormData.picture : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
 
+ 
 
 
   const addPost = async()=>{
@@ -26,7 +27,8 @@ const PostForm =() => {
        body :JSON.stringify({
           title : postFormData.postTitle ,
           desc : postFormData.postDesc,
-          picture : postFormData.postPicture
+          picture : postFormData.postPicture,
+          categories : postFormData.postCategory
         }),
     })
 
@@ -89,6 +91,9 @@ const PostForm =() => {
   const handleOnSubmit =async(e)=>{
     e.preventDefault();
     await addPost();
+    setFetchPost(true);
+
+    
     console.log(postFormData)
   }
 
@@ -105,6 +110,16 @@ const PostForm =() => {
               id="title"
               name="postTitle"
               placeholder="Enter a title"
+              onChange={handleOnChange}
+              required
+            />
+
+<label htmlFor="title">Title</label>
+            <input
+              type="text"
+              id="category"
+              name="postCategory"
+              placeholder="Enter a Category"
               onChange={handleOnChange}
               required
             />

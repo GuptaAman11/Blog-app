@@ -23,10 +23,11 @@ const PostSchema = new mongoose.Schema({
     },
     picture :{
         type : String , 
-        required : true
+        
     },
-    catgories: {
-        type: Array,
+    categories: {
+        type: String,
+        required : true
     },
 
     comments: [{

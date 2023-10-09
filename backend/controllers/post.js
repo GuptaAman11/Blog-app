@@ -5,7 +5,7 @@ const {uploadImage} = require("./uploadimage")
 
 //for NEW POST
 const createPost = async (req, res) => {
-    const {title,desc ,picture}=req.body;
+    const {title,desc ,picture , categories}=req.body;
 
 
     try {
@@ -14,7 +14,8 @@ const createPost = async (req, res) => {
             title : title , 
             desc : desc,
             author :  user ,
-            picture : picture
+            picture : picture,
+            categories : categories
         });
         res.status(200).json(savedPost);
         console.log(picture)
@@ -89,7 +90,7 @@ const getPost= async (req, res) => {
     try {
 
         if(true){
-            const post = await Post.find();
+            const post = await Post.find().sort({createdAt:-1})
             res.status(200).json(post);
         }
         
