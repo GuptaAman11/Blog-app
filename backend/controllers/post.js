@@ -26,7 +26,7 @@ const createPost = async (req, res) => {
 // for UPDATE POST
 const updatePost= async (req, res) => {
     try {
-        const {title , desc} = req.body;
+        const {title , desc ,picture} = req.body;
         const {id} = req.params;
         const user = req.user._id;
         const post = await Post.findById(id);
@@ -36,7 +36,8 @@ const updatePost= async (req, res) => {
 
             const updatedPost = await Post.findByIdAndUpdate(id,{
                 title :title,
-                desc : desc
+                desc : desc ,
+                picture : picture
             })
             await updatedPost.save();
             res.status(200).json({msg:"updated post",updatedPost});

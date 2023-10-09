@@ -6,6 +6,7 @@ import { useEffect ,useState } from 'react'
 import '../../css/home.css'
 import {NavLink, Navigate, useNavigate ,useParams,Link} from 'react-router-dom'
 import LikeHook from './LikeHook'
+import Category from './Category'
 
 
 const Home = () => {
@@ -15,7 +16,7 @@ const Home = () => {
   const url = posts.picture ? posts.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
 
 
-
+//getALL post posted by all user
   const getPost = async()=>{
     const authToken = localStorage.getItem('token')
     const response = await fetch(`http://localhost:8000/api/v1/post/getPost`,{
@@ -42,6 +43,7 @@ const Home = () => {
     <div>
         <Navbar />
         <PostForm />
+        <Category />
         <div className='post'>
         {
           posts.map((post)=>(
