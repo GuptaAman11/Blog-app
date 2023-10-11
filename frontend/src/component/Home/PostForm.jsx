@@ -9,6 +9,7 @@ const PostForm =({setFetchPost}) => {
     postTitle : ""  , postDesc : "" ,postPicture :"" ,postCategory :""
   })
 
+
   const url = postFormData.picture ? postFormData.picture : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
 
  
@@ -114,15 +115,18 @@ const PostForm =({setFetchPost}) => {
               required
             />
 
-<label htmlFor="title">Title</label>
-            <input
-              type="text"
-              id="category"
-              name="postCategory"
-              placeholder="Enter a Category"
-              onChange={handleOnChange}
-              required
-            />
+            <div>
+              <select onChange={handleOnChange} name='postCategory' >
+              <option value="All_Category">All_Category</option>
+
+                <option value="Music">Music</option>
+                <option value="fashion">fashion</option>
+                <option value="sport">sport</option>
+                <option value="college">college</option>
+                <option value="Article">Article</option>
+
+              </select>
+            </div>
           </div>
           <div className="form-group">
             <label htmlFor="description">Description</label>

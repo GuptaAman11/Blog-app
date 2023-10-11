@@ -140,7 +140,21 @@ const getPostByPostId = async(req,res)=>{
 
 }
 
+const getPostByCategory =async(req,res)=>{
+    try {
+        const {category} = req.query;
+        const post = await Post.find({categories:category})
+        if(!post){
+            res.status(404).json({msg:"post not found"})
+        }
+        res.status(200).json(post)
+    }
+    catch(error){
+        console.log(error)
+
+    }
+}
 module.exports ={
-    createPost , deletePost , updatePost , getPost,getPostById,getPostByPostId
+    createPost , deletePost , updatePost , getPost,getPostById,getPostByPostId , getPostByCategory
 }
 
