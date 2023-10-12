@@ -2,7 +2,7 @@ import React from 'react'
 import { Link ,useSearchParams } from 'react-router-dom'
 import { Value } from './Value'
 
-const Category = () => {
+const Category = ({setcat }) => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get('category');
   return (
@@ -12,7 +12,9 @@ const Category = () => {
       <table>
         <tr>
           {Value.map((category) => (
-            <td key={category.id} className="category-cell">
+            <td key={category.id} className="category-cell flex gap-4 m" onClick={()=>{
+              setcat(category.type)
+            }}>
           
                 {category.type}
               
