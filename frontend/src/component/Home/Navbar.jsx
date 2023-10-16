@@ -1,58 +1,35 @@
-import React, { useState } from "react";
-    import "../../css/navbar.css";
-    import { FaCaretDown,FaUser } from "react-icons/fa";
+import React, { useState } from 'react';
 
-    const Navbar = () => {
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-        const [Categorydropdown,setCategorydropdown] = useState(false)
-        return (
-            <>
-                <nav className="main-nav">
-                    <div className="logo">
-                        <h2>
-                            <span>B</span>LOG
-                        </h2>
-                    </div>
-                    <div className="menu-link">
-                        <ul>
-                            <li>
-                                <a href="#">Home Page</a>
-                            </li>
-                            <li>
-                                <a href="#">Categories</a>
-                                <div className="dropdown-menu">
-                                    {/* <button> */}
-                                    <ul>
-                                        <li><a href="#">Sports</a></li>
-                                        <li><a href="#">Literature</a></li>
-                                        <li><a href="#">Social</a></li>
-                                    </ul>
-                                    {/* </button> */}
-                                    
-                                </div>
-                                <FaCaretDown />    
-                            </li>
-                            {/* <li>
-                                <a href="#">Contact Us</a>
-                            </li> */}
-                            <li>
-                                <a href="#">About</a>
-                            </li>
-                            <input type="search" placeholder="search" id="find"></input> 
-                        </ul>
-                    </div>
-                    <div  className="profile-menu">
-                       <a href="/Profile"> <FaUser /></a>
-                    </div>
-     
-                    
-                </nav>
-                <section className="mysection">
-                    <p>Welcome to</p>
-                    <h1>BLOG WEBSITE</h1>
-                </section>
-            </>
-        )
-    }
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
-    export default Navbar
+  return (
+    <nav className="bg-blue-500 p-4">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="text-white text-2xl font-bold">Your Logo</div>
+        <div className="md:hidden">
+          <button
+            className="text-white text-2xl"
+            onClick={toggleMenu}
+          >
+            {isOpen ? 'X' : '☰'}
+          </button>
+        </div>
+        <div className={`md:flex md:items-center ${isOpen ? 'block' : 'hidden'}`}>
+          <ul className="md:flex space-x-4">
+            <li><a href="#" className="text-white">Home</a></li>
+            <li><a href="#" className="text-white">About</a></li>
+            <li><a href="#" className="text-white">Services</a></li>
+            <li><a href="#" className="text-white">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

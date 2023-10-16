@@ -3,8 +3,8 @@ import PostCard from './PostCard'
 import PostForm from './PostForm'
 import Navbar from './Navbar'
 import { useEffect ,useState } from 'react'
-import '../../css/home.css'
-import '../../css/category.css'
+// import '../../css/home.css'
+// import '../../css/category.css'
 
 import {NavLink, Navigate, useNavigate ,useParams,Link} from 'react-router-dom'
 import LikeHook from './LikeHook'
@@ -70,8 +70,15 @@ const Home = () => {
 
   return (
     <div>
-        <Navbar />
+        <div>
+          <Navbar />
+        </div>
+
+        <div>
+        
         <PostForm setFetchPost={setFetchPost}/>
+
+        </div>
         <Category setcat={setcat}/>
         <div className='post'>
         {
