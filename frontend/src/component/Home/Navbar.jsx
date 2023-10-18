@@ -2,7 +2,7 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <div>
+    <div className='shadow-lg'>
      
 
      <nav class="bg-custom-blue border-gray-200 dark:bg-gray-900">

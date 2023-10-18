@@ -31,7 +31,7 @@ const PostCard = ({post}) => {
 
   return (
     <div>
-    <div className="card" >
+    <div className="card m-4 bg-gradient-to-r from-blue-500 to-teal-500" >
     
     <Link to={`/blogview/${post._id}`} className='link'>
         <img src={url} alt="building" className="building1"  />

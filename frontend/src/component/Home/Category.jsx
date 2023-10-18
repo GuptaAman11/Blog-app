@@ -1,30 +1,31 @@
-import React from 'react'
-import { Link ,useSearchParams } from 'react-router-dom'
-import { Value } from './Value'
+import React from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Value } from './Value';
 
-const Category = ({setcat }) => {
+const Category = ({ setcat }) => {
   const [searchParams] = useSearchParams();
-  const category = searchParams.get('category');
+  const cat = searchParams.get('category');
+
   return (
     <div>
- 
-      <div>
-      <table>
-        <tr>
-          {Value.map((category) => (
-            <td key={category.id} className="category-cell flex gap-4 m" onClick={()=>{
-              setcat(category.type)
-            }}>
-          
-                {category.type}
-              
-            </td>
-          ))}
-        </tr>
-      </table>
+      <div className="flex gap-4">
+        {Value.map((category) => (
+          <button
+            key={category.id}
+            className={`py-2 px-4 bg-purple-700 mb-8 text-white rounded hover:bg-purple-800 ${
+              cat === category.type ? "bg-purple-800" : ""
+            }`}
+            onClick={() => {
+              setcat(category.type);
+            }}
+          >
+            {category.type}
+          </button>
+        ))}
       </div>
+      {cat && <p>Selected Category: {cat}</p>}
     </div>
-  )
+  );
 }
 
-export default Category
+export default Category;

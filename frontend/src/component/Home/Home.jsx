@@ -78,7 +78,7 @@ const Home = () => {
 
         </div>
         <Category setcat={setcat}/>
-        <div className='post'>
+        <div className='post flex flex-wrap justify-center gap-5'>
         {
           posts.map((post)=>(
 

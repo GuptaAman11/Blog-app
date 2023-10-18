@@ -32,7 +32,6 @@ const LikeHook = () => {
     ]
   return (
     <div>
-        <button type='submit' onClick={handleOnClick}>like</button>
     </div>
   )
 }

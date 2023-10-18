@@ -11,7 +11,7 @@ align-items: center;
 } */
 .card{
     
-    background-color: rgb(228, 57, 131);
+    background-color: #2A93D5;
     height: 600px;
     width: 400px;
     
@@ -92,7 +92,7 @@ align-items: center;
  }
 
 
- .link {
+ /* .link {
     text-decoration: none;
     color: inherit;
-}
+} */

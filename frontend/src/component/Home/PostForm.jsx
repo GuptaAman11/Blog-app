@@ -100,15 +100,21 @@ const PostForm =({setFetchPost}) => {
 
   return (
   
-    <div className="flex items-center">
+    <div className="  p-4 flex items-center m-10 shadow-lg">
     {/* Image on the right */}
-    <div className="w-1/2">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRynwDcCJF_ig-cnQWxZ2dU09LPnbfLGYgzlIomWpSOIQ&s" alt="Your Image" className="w-full h-auto" />
-    </div>
+        <div className="w-1/2">
+        <img
+          src="https://tse1.mm.bing.net/th?id=OIP.7Grmlv6D3kK-sTfJbMYEawHaFp&pid=Api&P=0&h=180"
+          alt="Your Image"
+          className="w-full h-auto rounded-full"
+        />
+        </div>
+
+
   
     {/* Form on the left */}
     <div className="w-1/2 p-8">
-      <div className="bg-white rounded shadow-md">
+      <div className=" p-2 rounded shadow-md">
         <h2 className="text-2xl font-bold mb-4">Post Your Content</h2>
         <form onSubmit={handleOnSubmit}>
           <div className="mb-4">
