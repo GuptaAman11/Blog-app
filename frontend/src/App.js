@@ -10,6 +10,7 @@ import Blogview from './component/BlogView/Blogview';
 import Profile from './component/Profile'
 import UpdatePost from './component/Home/UpdatePost';
 import Navbar from './component/Home/Navbar';
+import About from './component/About'
 // import CategroyWisePost from './component/Home/CategroyWisePost';
 
 
@@ -33,6 +34,8 @@ function App() {
           <Route path='/blogview/:postId' element={<Blogview />} />
 
           <Route path='/Profile' element={<Profile/>} />
+          
+          <Route path='/About' element={<About /> } />
         
           <Route path='/update/:postId' element={<UpdatePost />} />
           {/* <Route path='/catpost' element={<CategroyWisePost />} /> */}
