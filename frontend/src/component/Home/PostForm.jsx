@@ -99,13 +99,20 @@ const PostForm =({setFetchPost}) => {
   }
 
   return (
-
-    <div className="Postform">
-      <div className="form-container">
-        <h2>Post Your Content</h2>
+  
+    <div className="flex items-center">
+    {/* Image on the right */}
+    <div className="w-1/2">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRynwDcCJF_ig-cnQWxZ2dU09LPnbfLGYgzlIomWpSOIQ&s" alt="Your Image" className="w-full h-auto" />
+    </div>
+  
+    {/* Form on the left */}
+    <div className="w-1/2 p-8">
+      <div className="bg-white rounded shadow-md">
+        <h2 className="text-2xl font-bold mb-4">Post Your Content</h2>
         <form onSubmit={handleOnSubmit}>
-          <div className="form-group">
-            <label htmlFor="title">Title</label>
+          <div className="mb-4">
+            <label htmlFor="title" className="block text-gray-600">Title</label>
             <input
               type="text"
               id="title"
@@ -113,41 +120,58 @@ const PostForm =({setFetchPost}) => {
               placeholder="Enter a title"
               onChange={handleOnChange}
               required
+              className="w-full py-2 focus:outline-none border-b border-gray-300"
             />
-
-            <div>
-              <select onChange={handleOnChange} name='postCategory' >
-              <option value="All_Category">All_Category</option>
-
-                <option value="Music">Music</option>
-                <option value="fashion">fashion</option>
-                <option value="sport">sport</option>
-                <option value="college">college</option>
-                <option value="Article">Article</option>
-
-              </select>
-            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="description">Description</label>
+          <div className="mb-4">
+            <label htmlFor="category" className="block text-gray-600">Category</label>
+            <select
+              onChange={handleOnChange}
+              name="postCategory"
+              className="w-full py-2 focus:outline-none border-b border-gray-300"
+            >
+              <option value="All_Category">All Category</option>
+              <option value="Music">Music</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Sport">Sport</option>
+              <option value="College">College</option>
+              <option value="Article">Article</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="description" className="block text-gray-600">Description</label>
             <textarea
               id="description"
               name="postDesc"
               placeholder="Enter a description"
               required
               onChange={handleOnChange}
+              className="w-full py-2 focus:outline-none border-b border-gray-300"
+            ></textarea>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="file" className="block text-gray-600">File</label>
+            <input
+              type="file"
+              onChange={(e) => setfile(e.target.files[0])}
+              className="w-full py-2 focus:outline-none border-b border-gray-300"
             />
           </div>
-          <div className="form-group">
-            <input type='file' onChange={(e)=>setfile(e.target.files[0])}/>
-            <button type="submit">Post</button>
+          <div className="text-center">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            >
+              Post
+            </button>
           </div>
         </form>
       </div>
-      <div>
-
-      </div>
     </div>
+  </div>
+  
+
+
   );
 }
 
