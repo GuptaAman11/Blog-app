@@ -10,7 +10,8 @@ import Blogview from './component/BlogView/Blogview';
 import Profile from './component/Profile'
 import UpdatePost from './component/Home/UpdatePost';
 import Navbar from './component/Home/Navbar';
-// import CategroyWisePost from './component/Home/CategroyWisePost';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -19,11 +20,15 @@ function App() {
     
 
     <div>
+              <ToastContainer />
+
 
       <div>
         <Navbar/>
+        
       </div>
       <Router>
+
         
       
         <Routes>
@@ -35,7 +40,6 @@ function App() {
           <Route path='/Profile' element={<Profile/>} />
         
           <Route path='/update/:postId' element={<UpdatePost />} />
-          {/* <Route path='/catpost' element={<CategroyWisePost />} /> */}
         </Routes>
       
     </Router>

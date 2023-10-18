@@ -14,6 +14,7 @@ const Commentcard = ({comment}) => {
             <div className="container">
                
                 <h3>{comment.comment}</h3>
+                <h3>{comment.author.name}</h3>
             </div>
         </div>
     );

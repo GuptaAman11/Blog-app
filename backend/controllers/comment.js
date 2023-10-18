@@ -90,7 +90,7 @@ const getCommentById = async (req,res) => {
     const {postId} = req.params ; 
     try{
  
-        const comment =await Comment.find({postId:postId})
+        const comment =await Comment.find({postId:postId}).populate('author')
         if(!comment){
             res.status(401).json({msg: "comment not found"})
     

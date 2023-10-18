@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/postform.css'
+import { toast } from 'react-toastify'
 
 
 const PostForm =({setFetchPost}) => {
@@ -10,7 +11,7 @@ const PostForm =({setFetchPost}) => {
   })
 
 
-  const url = postFormData.picture ? postFormData.picture : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
+  const url = postFormData.picture ? postFormData.picture :'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
 
  
 
@@ -35,11 +36,12 @@ const PostForm =({setFetchPost}) => {
 
     const responseData = await response.json();
     if(response.ok){
+      toast.success('post created')
       console.log(responseData)
     }
 
     else {
-      console.log(response.error)
+      toast.error(response.error)
     } 
     } catch (error) {
       console.log(error)
@@ -92,6 +94,11 @@ const PostForm =({setFetchPost}) => {
   const handleOnSubmit =async(e)=>{
     e.preventDefault();
     await addPost();
+    window.location.reload()
+    // setpostFormData({
+    //   postTitle : ""  , postDesc : "" ,postPicture :"" ,postCategory :""
+
+    // })
     setFetchPost(true);
 
     
