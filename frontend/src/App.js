@@ -11,6 +11,7 @@ import Profile from './component/Profile'
 import UpdatePost from './component/Home/UpdatePost';
 import Navbar from './component/Home/Navbar';
 import About from './component/About'
+import Signup from './component/Login/Signup';
 // import CategroyWisePost from './component/Home/CategroyWisePost';
 
 
@@ -29,6 +30,7 @@ function App() {
       
         <Routes>
           <Route path='/login' element={<Main /> } />
+          
           <Route path='/' element={<Home />} />
         
           <Route path='/blogview/:postId' element={<Blogview />} />

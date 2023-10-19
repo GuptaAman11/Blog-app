@@ -1,0 +1,35 @@
+
+.signin-image{
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+   padding-top: 1rem;
+}
+.form-button{
+    background-color: #1acdd3;
+    border: 1px solid #34A0A4;
+    box-shadow: 0 5px 10px #d1f54e;
+    border-radius: 5px;
+    color: white;
+    justify-content: center;
+    cursor: pointer;
+    width: 100px;
+    margin-top: 30px;
+    margin-left: 100px;
+    font-size: medium;
+    line-height: 30px;
+    text-align: center;
+
+}
+.form-title{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.form-group{
+    box-shadow: 0 2px 5px #5f4ef5
+}
+.signup-image-link{
+    text-decoration: underline;
+}
+
+   
