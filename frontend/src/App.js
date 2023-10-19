@@ -10,13 +10,9 @@ import Blogview from './component/BlogView/Blogview';
 import Profile from './component/Profile'
 import UpdatePost from './component/Home/UpdatePost';
 import Navbar from './component/Home/Navbar';
-<<<<<<< HEAD
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-=======
 import About from './component/About'
-// import CategroyWisePost from './component/Home/CategroyWisePost';
->>>>>>> e12c08a95388db8256b7806b5cd125bacf6aaf3f
 
 
 function App() {
