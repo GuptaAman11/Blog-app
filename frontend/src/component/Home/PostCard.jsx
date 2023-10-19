@@ -1,5 +1,4 @@
 import React from 'react'
-import '../../css/postcard.css'
 import {Link} from 'react-router-dom'
 
 const PostCard = ({post}) => {
@@ -30,34 +29,28 @@ const PostCard = ({post}) => {
   const url = post.picture ? post.picture : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
 
   return (
-    <div>
-    <div className="card m-4 bg-gradient-to-r from-blue-500 to-teal-500" >
-    
-    <Link to={`/blogview/${post._id}`} className='link'>
-        <img src={url} alt="building" className="building1"  />
-        </Link>
-        <h1 className="heading">{post.title}</h1>
-        <div className="text">
-            
-            <p className="para" >{post.desc}</p> 
-
-    
-           
-        </div>
-        <div class="foot">
-             <button className="btn" onClick={()=>{
-              likePost(post?._id)
-             }}>LIKE {post?.likes?.length} </button>
-             <button className="btn">SHARE</button>
-        </div>
-
-        
-       
-
-
+<div className="mt-16">
+  <div className="bg-gradient-to-r from-blue-500 to-teal-500 rounded-lg m-4 p-6 w-72 h-96"> {/* Set fixed width and height */}
+    <Link to={`/blogview/${post._id}`} className="text-decoration-none text-blue-500 hover:text-teal-500 block">
+      <img src={url} alt="building" className="w-full h-32 rounded-lg" /> {/* Adjusted image size and border radius */}
+    </Link>
+    <h1 className="text-2xl font-light mt-4 justify-center"> {/* Increased font size and top margin */}
+      {post.title}
+    </h1>
+    <div className="text">
+      <p className="justify-center">{post.desc}</p>
     </div>
-
+    <div className="foot flex justify-between bg-green-300 p-4 rounded-b-lg">
+      <button className="btn" onClick={() => likePost(post?._id)}>
+        LIKE {post?.likes?.length}
+      </button>
+      <button className="btn">SHARE</button>
+    </div>
+  </div>
 </div>
+
+
+
   )
 }
 

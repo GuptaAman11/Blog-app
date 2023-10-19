@@ -89,14 +89,15 @@ const Commentform=({post})=> {
 
 
     return (
-        <div className='comment-form'>
+        <div className="p-5 m-5 border-2" >
             <h1>ADD A COMMENT</h1>
             <form  onSubmit={handleOnSubmit}>
-                <input type='text' className='comment-input' placeholder='Write your comment'
-              name='commentData' onChange={handleOnChange}/>
-                <button className='submit'>Submit</button>
+                <textarea class="" placeholder='Write your comment' rows="4"
+              name='commentData' onChange={handleOnChange}></textarea>
+                <button type="submit" class="bg-blue-500">Submit</button>
             </form>
-            <div>
+            <br></br>
+            <div className='w-full'>
 
                 {
                      comment.map((comment) => (

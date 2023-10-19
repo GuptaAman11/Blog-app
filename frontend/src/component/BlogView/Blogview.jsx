@@ -59,10 +59,12 @@ const Blogview = () => {
 
   return (
 
-    <div className="container-fluid">
-       <Commentform post={post} />
+    <div className="flex border-2">
+       
 
-    <div className="card" >
+    <div className="card w-1/2 mx-auto mt-16" >
+
+
     
          
         <img src={url} alt="building" className="building1" />
@@ -76,17 +78,18 @@ const Blogview = () => {
              <button className="btn">LIKE</button>
              <button className="btn">SHARE</button>
         </div>
-
-    </div>
-    <Link to={`/update/${postId}`}>
+        <Link to={`/update/${postId}`}>
       <button>update</button>
 
     </Link>
     <button onClick={handleDelete}>delete</button>
-
+    </div>
+   
+  <div className="w-1/2"><Commentform post={post} /></div>
 
 
 </div>
+
    
    
   );

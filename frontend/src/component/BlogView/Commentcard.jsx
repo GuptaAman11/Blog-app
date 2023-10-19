@@ -1,21 +1,17 @@
-
-
-
 import React from "react";
-import "../../css/commentcard.css";
 
 
 const Commentcard = ({comment}) => {
     return (
         <div>
-            <div className="heading">
-                <h1>Post</h1>
+            <div class="w-full flex border-2 m-3 ">
+                <img class="user-profile-image m-2" src=""></img>
+                <div class="comment-text w-full m-2">
+                    <p><strong>{comment.author.name}</strong> {comment.comment} </p>
+                </div>
             </div>
-            <div className="container">
                
-                <h3>{comment.comment}</h3>
             </div>
-        </div>
     );
 }
 
