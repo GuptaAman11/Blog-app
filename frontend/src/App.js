@@ -13,6 +13,11 @@ import Navbar from './component/Home/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import About from './component/About'
+<<<<<<< HEAD
+import Signup from './component/Login/Signup';
+// import CategroyWisePost from './component/Home/CategroyWisePost';
+=======
+>>>>>>> 66be699fb0eb6deca4dae107129bc6dcf962d98c
 
 
 function App() {
@@ -34,6 +39,7 @@ function App() {
       
         <Routes>
           <Route path='/login' element={<Main /> } />
+          
           <Route path='/' element={<Home />} />
         
           <Route path='/blogview/:postId' element={<Blogview />} />

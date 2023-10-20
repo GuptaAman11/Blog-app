@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { Component, useState } from 'react'
 import '../../css/login.css'
 import { toast } from 'react-toastify';
@@ -59,20 +60,18 @@ const Signup = () => {
         await register()
         console.log(registerFormData)
       }
+=======
+import React from 'react'
+
+const Signup = () => {
+>>>>>>> fbab32117ade62e73e5e6e346cdf61e50514ee85
   return (
-    <div className="flip-card__back">
-        <div className="title">Sign up</div>
-        <form action="" className="flip-card__form" onSubmit={handleOnSumbit}>
-            <input type="name" placeholder="Name" name="registerName" className="flip-card__input" onChange={handleInputChange} />
-            <input type="email" placeholder="Email" name="registerEmail" className="flip-card__input" onChange={handleInputChange} />
-            <input type="password" placeholder="Password" name="registerPassword" className="flip-card__input" onChange={handleInputChange} />
-            <button className="flip-card__btn" type="submit">Confirm!</button>
-        </form>
-  </div>
-
-
-
+    <div>
+      
+    </div>
   )
 }
 
 export default Signup
+
+
