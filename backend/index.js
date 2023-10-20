@@ -19,6 +19,7 @@ Connection();
 app.get('/', (req, res) => {
     res.send('hello world')
 })
+app.use(express.static('uploads/'));
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/post', postRoutes);

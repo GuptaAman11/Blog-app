@@ -5,7 +5,7 @@ const {verifyJWT} = require('../middleware/verify')
 const { uploadImage ,getImage} = require('../controllers/uploadimage');
 const { upload } = require('../middleware/ImageUpload');
 
-router.post('/createPost',verifyJWT,createPost)
+router.post('/createPost',verifyJWT,upload.single('picture'),createPost)
 router.put('/updatePost/:id',verifyJWT, updatePost)
 router.delete('/deletePost/:id',verifyJWT,deletePost)
 router.get('/getPost',verifyJWT,getPost)
@@ -14,8 +14,8 @@ router.get('/getPostByPostId/:postId' ,verifyJWT,getPostByPostId)
 router.get('/getPostByCategory' ,getPostByCategory)
 
 
-router.post('/file/upload',upload.single('file') ,uploadImage)
-router.get('/file/:filename', getImage);
+// router.post('/file/upload',upload.single('picture') ,uploadImage)
+// router.get('/file/:filename', getImage);
 
 
 module.exports = router;

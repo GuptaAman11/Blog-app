@@ -5,9 +5,16 @@ const {uploadImage} = require("./uploadimage")
 
 //for NEW POST
 const createPost = async (req, res) => {
-    const {title,desc ,picture , categories}=req.body;
+    const {title,desc  , categories}=req.body;
+    let picture ;
+    if(req.file){
+        picture = req.file.path
 
-
+    }
+    else {
+        picture = "value"
+    }
+    console.log(picture)
     try {
         const user = req.user._id
         const savedPost= await Post.create({

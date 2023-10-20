@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import '../../css/login.css'
 import {NavLink,useNavigate} from 'react-router-dom'
+import { toast } from 'react-toastify';
+
 
 
 const Login1 = () => {
@@ -28,12 +30,12 @@ const Login1 = () => {
          const responseData = await response.json();
          if (response.ok) {
             await setUser(responseData)
-            //  toast.success('user created');
+             toast.success('user logged in sucessfully');
             console.log(user)
              localStorage.setItem('token',responseData.token)
          }
          else {
-            //  toast.error(response.error)
+             toast.error("invalid password")
             console.log(response.error)
          }
       }

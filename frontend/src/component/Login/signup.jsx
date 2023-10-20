@@ -1,5 +1,7 @@
 import React, { Component, useState } from 'react'
 import '../../css/login.css'
+import { toast } from 'react-toastify';
+
 
 
 const Signup = () => {
@@ -26,12 +28,12 @@ const Signup = () => {
            });
            const responseData = await response.json();
            if (response.ok) {
-              //  toast.success('user created');
+               toast.success('user created');
                console.log(responseData)
                
            }
            else {
-              //  toast.error(response.error)
+               toast.error(response.error)
               console.log(response.error)
            }
         }

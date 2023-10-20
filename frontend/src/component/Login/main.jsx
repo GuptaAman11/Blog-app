@@ -14,8 +14,8 @@ const Main = () => {
                     <span className="slider"></span>
                     <span className="card-side"></span>
                     <div className="flip-card__inner">
-            <Login1 /> {/* Render the Login component */}
-            <Signup /> {/* Render the Register component */}
+            <Login1 /> 
+            <Signup /> 
           </div>
         </label>
       </div>

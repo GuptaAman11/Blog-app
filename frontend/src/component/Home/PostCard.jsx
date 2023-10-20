@@ -26,25 +26,30 @@ const PostCard = ({post}) => {
      
     }
  }
-  const url = post.picture ? post.picture : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
+  const url = post.picture? `http://localhost:8000/${post.picture.replace(/^uploads\\/i, '')}`: 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
+  console.log(post.picture)
 
   return (
 <div className="mt-16">
-  <div className="bg-gradient-to-r from-blue-500 to-teal-500 rounded-lg m-4 p-6 w-72 h-96"> {/* Set fixed width and height */}
+  <div className="bg-gradient-to-r from-blue-500 to-blue-200 rounded-lg m-4 p-6 h-96 w-96 style">
     <Link to={`/blogview/${post._id}`} className="text-decoration-none text-blue-500 hover:text-teal-500 block">
-      <img src={url} alt="building" className="w-full h-32 rounded-lg" /> {/* Adjusted image size and border radius */}
+      <img src={url} alt="building" className="w-full h-32 rounded-lg" />
     </Link>
-    <h1 className="text-2xl font-light mt-4 justify-center"> {/* Increased font size and top margin */}
+    <h1 className="text-2xl font-light mt-4 text-center"> {/* Centered the text */}
       {post.title}
     </h1>
     <div className="text">
-      <p className="justify-center">{post.desc}</p>
+      <p className="text-center"> {/* Centered the text */}
+        {post.desc}
+      </p>
     </div>
-    <div className="foot flex justify-between bg-green-300 p-4 rounded-b-lg">
-      <button className="btn" onClick={() => likePost(post?._id)}>
+    <div className="foot flex justify-between bg-purple-300 p-4 rounded-b-lg">
+      <button className="btn text-black" onClick={() => likePost(post?._id)}>
         LIKE {post?.likes?.length}
       </button>
-      <button className="btn">SHARE</button>
+      <Link to={`/blogview/${post._id}`}>
+        <button className="btn text-black">COMMENT</button> {/* Changed the button color to black */}
+      </Link>
     </div>
   </div>
 </div>

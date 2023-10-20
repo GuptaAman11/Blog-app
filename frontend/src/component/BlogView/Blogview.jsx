@@ -8,7 +8,7 @@ import '../../css/postcard.css'
 const Blogview = () => {
   const { postId } = useParams();
   const [post, setPost] = useState("");
-  const url = post.picture ? post.picture : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
+  const url = post.picture ? `http://localhost:8000/${post.picture.replace(/^uploads\\/i, '')}` : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
 
 // getpost by postid
   useEffect(() => {
