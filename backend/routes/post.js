@@ -11,7 +11,7 @@ router.delete('/deletePost/:id',verifyJWT,deletePost)
 router.get('/getPost',verifyJWT,getPost)
 router.get('/getPostById/:UserId',verifyJWT,getPostById)
 router.get('/getPostByPostId/:postId' ,verifyJWT,getPostByPostId)
-router.get('/getPostByCategory' ,getPostByCategory)
+router.get('/getPostByCategory',verifyJWT ,getPostByCategory)
 
 
 // router.post('/file/upload',upload.single('picture') ,uploadImage)

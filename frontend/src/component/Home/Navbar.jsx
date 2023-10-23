@@ -1,12 +1,15 @@
 import React from 'react'
-import { Link ,useNavigate} from 'react-router-dom'
+import { useNavigate ,NavLink } from 'react-router-dom';
 
 const Navbar = () => {
-  // const navigate = useNavigate()
-  // const handleLogout = () => {
-  
-  //   navigate('/login')
-  // };
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    
+    localStorage.removeItem('token')
+    navigate('/login')
+    
+
+  };
   return (
     <div className='shadow-lg'>
      
@@ -29,13 +32,12 @@ const Navbar = () => {
           <a href="#" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>
         </li>
         <li>
-          <a href="About" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
+          <NavLink to={"/about"} class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" />About 
         </li>
 
       
-        {/* <button className='bg-orange-600 p-1 text-sm rounded-md' onClick={handleLogout}>LOGOUT</button> */}
+        <button className='bg-orange-600 p-1 text-sm rounded-md' onClick={handleLogout}>LOGOUT</button>
 
-    <div className='bg-orange-600 p-1 text-sm rounded-md'>LOGOUT</div>
 
 
       </ul>

@@ -13,11 +13,9 @@ import Navbar from './component/Home/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import About from './component/About'
-<<<<<<< HEAD
 import Signup from './component/Login/Signup';
-// import CategroyWisePost from './component/Home/CategroyWisePost';
-=======
->>>>>>> 66be699fb0eb6deca4dae107129bc6dcf962d98c
+import Authe from './component/Home/utils/Authe';
+import Login1 from './component/Login/Login1';
 
 
 function App() {
@@ -29,26 +27,34 @@ function App() {
               <ToastContainer />
 
 
+     
+      <Router>
       <div>
         <Navbar/>
         
       </div>
-      <Router>
-
         
       
         <Routes>
-          <Route path='/login' element={<Main /> } />
+
+
+
+          <Route path='/login' element={<Login1 /> } />
+          <Route path='/home' element={<Home />} />
+
           
-          <Route path='/' element={<Home />} />
         
-          <Route path='/blogview/:postId' element={<Blogview />} />
+          <Route path='/home/blogview/:postId' element={<Blogview />} />
 
           <Route path='/Profile' element={<Profile/>} />
           
-          <Route path='/About' element={<About /> } />
         
           <Route path='/update/:postId' element={<UpdatePost />} />
+
+            <Route path='/about' element={<About /> } />
+            <Route path='/signup' element={<Signup /> } />
+
+
         </Routes>
       
     </Router>

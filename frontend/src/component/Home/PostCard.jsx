@@ -30,29 +30,31 @@ const PostCard = ({post}) => {
   console.log(post.picture)
 
   return (
-<div className="mt-16">
-  <div className="bg-gradient-to-r from-blue-500 to-blue-200 rounded-lg m-4 p-6 h-96 w-96 style">
-    <Link to={`/blogview/${post._id}`} className="text-decoration-none text-blue-500 hover:text-teal-500 block">
-      <img src={url} alt="building" className="w-full h-32 rounded-lg" />
-    </Link>
-    <h1 className="text-2xl font-light mt-4 text-center"> {/* Centered the text */}
-      {post.title}
-    </h1>
-    <div className="text">
-      <p className="text-center"> {/* Centered the text */}
-        {post.desc}
-      </p>
-    </div>
-    <div className="foot flex justify-between bg-purple-300 p-4 rounded-b-lg">
-      <button className="btn text-black" onClick={() => likePost(post?._id)}>
-        LIKE {post?.likes?.length}
-      </button>
-      <Link to={`/blogview/${post._id}`}>
-        <button className="btn text-black">COMMENT</button> {/* Changed the button color to black */}
-      </Link>
-    </div>
-  </div>
-</div>
+        <div>
+
+        <div class="blog-post bg-blue-900 bg-opacity-25 shadow-md rounded-lg flex items-center space-x-10 my-10 p-10 relative ">
+            <div class="w-96 h-72 relative">
+                <img src={url} alt="Blog Post Image" class="w-full h-full object-cover rounded-lg" />
+                <div class="absolute w-full h-full top-0 left-0 shadow-md bg-opacity-50 rounded-lg"></div>
+            </div>
+            <div class="flex-1">
+                <div class="mb-5">
+                    <span class="block text-gray-700 text-sm font-semibold mb-1">name</span>
+                    <span class="block text-gray-700 text-sm font-semibold">Nov 12 2021</span>
+                </div>
+                <h1 class="text-2xl font-bold text-blue-500 mb-3 uppercase">{post.title}</h1>
+                <p class="text-sm text-gray-600 mb-5">{post.desc}</p>
+                <a href="#" class="block py-3 px-6 text-white uppercase text-sm rounded-lg bg-gradient-to-r from-pink-500 to-blue-500">Read More</a>
+            </div>
+            
+            <div class="absolute bottom-4 right-4 ">
+                <button class="bg-blue-500 text-white px-5 py-2 rounded-lg" onClick={() => likePost(post?._id)}>Like {post?.likes?.length}</button>
+                <Link to={`blogview/${post._id}`}>
+                <button class="bg-gray-700 text-white px-5 py-2 rounded-lg">Comment</button>
+                </Link>
+            </div>
+        </div>
+        </div>
 
 
 

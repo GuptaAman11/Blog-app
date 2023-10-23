@@ -59,36 +59,46 @@ const Blogview = () => {
 
   return (
 
-    <div className="flex border-2">
-       
 
-    <div className="card w-1/2 mx-auto mt-16" >
 
+      <div>
+
+        <div class="blog-post bg-blue-900 bg-opacity-25 shadow-md rounded-lg flex items-center space-x-10 my-10 p-10 relative ">
+            <div class="w-96 h-72 relative">
+                <img src={url} alt="Blog Post Image" class="w-full h-full object-cover rounded-lg" />
+                <div class="absolute w-full h-full top-0 left-0 shadow-md bg-opacity-50 rounded-lg"></div>
+            </div>
+            <div class="flex-1">
+                <div class="mb-5">
+                    <span class="block text-gray-700 text-sm font-semibold mb-1">{post.title}</span>
+                    <span class="block text-gray-700 text-sm font-semibold">Nov 12 2021</span>
+                </div>
+                <h1 class="text-2xl font-bold text-blue-500 mb-3 uppercase">{post.title}</h1>
+                <p class="text-sm text-gray-600 mb-5">{post.desc}</p>
+                <a href="#" class="block py-3 px-6 text-white uppercase text-sm rounded-lg bg-gradient-to-r from-pink-500 to-blue-500">Read More</a>
+            </div>
+            
+            <div class="absolute bottom-4 right-4 ">
+            <button onClick={handleDelete} className='bg-blue-500 text-white px-11 py-2 rounded-lg'>delete</button>
+
+              <Link to={`/update/${post._id}`}>
+              <button class="bg-blue-500 text-white px-11 py-2 rounded-lg" >update</button>
+
+              </Link>
+                <button class="bg-blue-500 text-white px-5 py-2 rounded-lg">Likfdfde</button>
+                <button class="bg-gray-700 text-white px-5 py-2 rounded-lg">Comment</button>
+            </div>
+        </div>
+
+        <div className="w-1/2"><Commentform post={post} /></div> 
+
+        </div>
 
     
-         
-        <img src={url} alt="building" className="building1" />
-        <h1 className="heading">{post.title}</h1>
-        <div className="text">
-            
-            <p className="para" >{post.desc}</p> 
-           
-        </div>
-        <div class="foot">
-             <button className="btn">LIKE</button>
-             <button className="btn">SHARE</button>
-        </div>
-        <Link to={`/update/${postId}`}>
-      <button>update</button>
-
-    </Link>
-    <button onClick={handleDelete}>delete</button>
-    </div>
+        
    
-  <div className="w-1/2"><Commentform post={post} /></div>
 
 
-</div>
 
    
    

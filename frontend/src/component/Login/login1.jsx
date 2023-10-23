@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 import React, { useState } from 'react'
 import '../../css/login.css'
-import {NavLink,useNavigate} from 'react-router-dom'
-import { toast } from 'react-toastify';
-
-
+import {Link, NavLink,useNavigate} from 'react-router-dom'
+import '../images/sideimg.jpg'
 
 const Login1 = () => {
     const [user,setUser] = useState("");
@@ -31,12 +28,12 @@ const Login1 = () => {
          const responseData = await response.json();
          if (response.ok) {
             await setUser(responseData)
-             toast.success('user logged in sucessfully');
+            //  toast.success('user created');
             console.log(user)
              localStorage.setItem('token',responseData.token)
          }
          else {
-             toast.error("invalid password")
+            //  toast.error(response.error)
             console.log(response.error)
          }
       }
@@ -66,7 +63,7 @@ const Login1 = () => {
     const handleOnSubmit= async(e)=>{
         e.preventDefault();
         await login().then(()=>{
-            navigate('/')
+            navigate('/home')
         })
         console.log(loginData)
 
@@ -75,69 +72,38 @@ const Login1 = () => {
 
     
 
-=======
-import React from "react";
-import './login.css'
-import { NavLink } from "react-router-dom";
-
-const Login1 = () => {
->>>>>>> fbab32117ade62e73e5e6e346cdf61e50514ee85
   return (
-    <section className="sign-in">
-      <div className="container mt-5">
-        <div className="signin-content">
-          <div className="signin-image">
-            <figure>
-              <img src="https://cdni.iconscout.com/illustration/premium/thumb/login-page-2578971-2147152.png" alt="Login pic" />
-            </figure>
-            <NavLink to="/Signup" className="signup-image-link">
-              Create an Account
-            </NavLink>
-          </div>
-
-          <div className="signin-form">
-            <h2 className="form-title">Sign In</h2>
-            <form className="register-form" id="register-form">
-              <div className="form-group">
-                <label html For="email">
-                  <i className="zmdi zmdi-email material-icons-name"></i>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  autocomplete="off"
-                  placeholder="Your Email"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="password">
-                  <i className="zmdi zmdi-lock material-icons-name"></i>
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  autocomplete="off"
-                  placeholder="Your Password"
-                />
-              </div>
-
-              <div className="form-button">
-                <input
-                  type="submit"
-                  name="signin"
-                  id="signin"
-                  className="form-submit"
-                  value="Login"
-                />
-              </div>
-            </form>
-          </div>
-        </div>
+ 
+    <div class="min-h-screen flex items-center justify-center bg-purple-700">
+    <div class="bg-purple-100 w-4/5 rounded-lg p-5 flex">
+      <div class="w-1/2">
+        <img src="https://image.freepik.com/free-vector/login-concept-illustration_114360-739.jpg" alt="img" class="h-full w-full object-cover" />
       </div>
-    </section>
-  );
-};
-export default Login1;
+      <div class="w-1/2 p-5">
+        <h1 class="text-2xl font-bold text-blue-500 mb-4">Login</h1>
+        <form action="" onSubmit={handleOnSubmit}>
+          <label for="email">Email</label>
+          <div class="mb-4">
+            <input type="text" placeholder="Email" name="loginEmail" onChange={handleInputForm} class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <label for="password">Password</label>
+          <div class="mb-4">
+            <input type="password" placeholder="Password" name="loginPassword" onChange={handleInputForm} class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <div class="mb-4">
+            <button type="submit" class="w-full bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none">Submit</button>
+          </div>
+        </form>
+        <Link to={'/signup'}>
+        <p>Not a member? <a href="#">Click here for Registration</a></p>
+
+        </Link>
+      </div>
+    </div>
+  </div>
+      
+    
+  )
+}
+
+export default Login1
