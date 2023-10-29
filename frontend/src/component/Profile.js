@@ -1,5 +1,4 @@
 import React from 'react'
-import './myProfile.css'
 // import {Link} from 'react-router-dom'
 // import { useSelector } from 'react-dom'
 import {Row, Col,Button, Form} from "react-bootstrap"

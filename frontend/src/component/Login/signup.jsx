@@ -1,6 +1,8 @@
 import React, { Component, useState } from 'react'
 import '../../css/login.css'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify';
+
 
 
 const Signup = () => {
@@ -26,8 +28,9 @@ const Signup = () => {
              }),
            });
            const responseData = await response.json();
-           if (response.ok) {
-              //  toast.success('user created');
+           if (response.status===200) {
+               toast.success('user created');
+               console.log("hii")
                console.log(responseData)
                
            }

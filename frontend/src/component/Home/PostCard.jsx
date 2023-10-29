@@ -34,17 +34,20 @@ const PostCard = ({post}) => {
 
         <div class="blog-post bg-blue-900 bg-opacity-25 shadow-md rounded-lg flex items-center space-x-10 my-10 p-10 relative ">
             <div class="w-96 h-72 relative">
+                <Link to={`blogview/${post._id}`}>
                 <img src={url} alt="Blog Post Image" class="w-full h-full object-cover rounded-lg" />
+                
                 <div class="absolute w-full h-full top-0 left-0 shadow-md bg-opacity-50 rounded-lg"></div>
+                </Link>
             </div>
             <div class="flex-1">
                 <div class="mb-5">
-                    <span class="block text-gray-700 text-sm font-semibold mb-1">name</span>
-                    <span class="block text-gray-700 text-sm font-semibold">Nov 12 2021</span>
+                    <span class="block text-gray-700 text-sm font-semibold mb-1">{post.title}</span>
+                    <span class="block text-gray-700 text-sm font-semibold">{post.createdAt}</span>
                 </div>
                 <h1 class="text-2xl font-bold text-blue-500 mb-3 uppercase">{post.title}</h1>
                 <p class="text-sm text-gray-600 mb-5">{post.desc}</p>
-                <a href="#" class="block py-3 px-6 text-white uppercase text-sm rounded-lg bg-gradient-to-r from-pink-500 to-blue-500">Read More</a>
+                {/* <a href="#" class="block py-3 px-6 text-white uppercase text-sm rounded-lg bg-gradient-to-r from-pink-500 to-blue-500">Read More</a> */}
             </div>
             
             <div class="absolute bottom-4 right-4 ">

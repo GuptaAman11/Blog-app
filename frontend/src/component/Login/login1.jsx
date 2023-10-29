@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import '../../css/login.css'
 import {Link, NavLink,useNavigate} from 'react-router-dom'
-import '../images/sideimg.jpg'
+import { toast } from 'react-toastify';
+
 
 const Login1 = () => {
     const [user,setUser] = useState("");
@@ -28,18 +29,21 @@ const Login1 = () => {
          const responseData = await response.json();
          if (response.ok) {
             await setUser(responseData)
-            //  toast.success('user created');
+            navigate('/home')
+
+             toast.success('userlogged in sucessfully');
             console.log(user)
              localStorage.setItem('token',responseData.token)
          }
          else {
-            //  toast.error(response.error)
-            console.log(response.error)
+             toast.error(responseData.msg)
+            console.log(responseData.msg)
          }
       }
        
        catch (error) {
         console.log(error)
+        toast.error(error)
         
        }
 
@@ -62,9 +66,8 @@ const Login1 = () => {
     }
     const handleOnSubmit= async(e)=>{
         e.preventDefault();
-        await login().then(()=>{
-            navigate('/home')
-        })
+        await login()
+        
         console.log(loginData)
 
     }
@@ -84,11 +87,11 @@ const Login1 = () => {
         <form action="" onSubmit={handleOnSubmit}>
           <label for="email">Email</label>
           <div class="mb-4">
-            <input type="text" placeholder="Email" name="loginEmail" onChange={handleInputForm} class="w-full px-3 py-2 border rounded-lg" />
+            <input type="text" placeholder="Email" name="loginEmail" required onChange={handleInputForm} class="w-full px-3 py-2 border rounded-lg" />
           </div>
           <label for="password">Password</label>
           <div class="mb-4">
-            <input type="password" placeholder="Password" name="loginPassword" onChange={handleInputForm} class="w-full px-3 py-2 border rounded-lg" />
+            <input type="password" placeholder="Password" name="loginPassword" required onChange={handleInputForm} class="w-full px-3 py-2 border rounded-lg" />
           </div>
           <div class="mb-4">
             <button type="submit" class="w-full bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none">Submit</button>

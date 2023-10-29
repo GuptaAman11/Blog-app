@@ -34,18 +34,23 @@ const createPost = async (req, res) => {
 // for UPDATE POST
 const updatePost= async (req, res) => {
     try {
-        const {title , desc ,picture} = req.body;
+        const {title , desc , categories} = req.body;
         const {id} = req.params;
         const user = req.user._id;
+        let picture ;
         const post = await Post.findById(id);
         console.log(post.author)
         console.log(user)
         if (post.author.toString() === user.toString()) {
 
+            picture = req.file.path
+
             const updatedPost = await Post.findByIdAndUpdate(id,{
                 title :title,
                 desc : desc ,
-                picture : picture
+                picture : picture ,
+                categories : categories
+
             })
             await updatedPost.save();
             res.status(200).json({msg:"updated post",updatedPost});
@@ -97,7 +102,7 @@ const getPost= async (req, res) => {
     try {
 
         if(true){
-            const post = await Post.find().sort({createdAt:-1})
+            const post = await Post.find().sort({createdAt:-1}).populate('author')
             res.status(200).json(post);
         }
         
@@ -135,7 +140,7 @@ const getPostByPostId = async(req,res)=>{
         const {postId}= req.params
         const post = await Post.findById(postId)
         if(!post){
-            res.status(401).json({msg:"post not found"})
+            res.status(401).json({msg:"post not found"}).populate('author')
         }
         res.status(200).json(post)
     } catch (error) {

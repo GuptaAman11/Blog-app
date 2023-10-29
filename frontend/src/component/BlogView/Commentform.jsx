@@ -2,43 +2,46 @@ import React, { useState ,useEffect} from 'react'
 import "../../css/commentform.css";
 import "./Blogview"
 import Commentcard from './Commentcard';
-const Commentform=({post})=> {
+const Commentform=({post ,setfetchComment})=> {
     const [commentFormData , setCommentFormData] = useState({
         commentData : ""
     })
 
     const [comment , setComment] = useState([])
 
-    useEffect(()=>{
-        const getCommentById = async () => {
-            console.log(post)
-   
-            try {
-              const authToken = localStorage.getItem('token');
-              const response = await fetch(`http://localhost:8000/api/v1/comment/getCommentById/${post._id}`, {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${authToken}`
-                }
-              });
-              if (response.ok) {
-                const responseData = await response.json();
-                setComment(responseData.comment);
+    const getCommentById = async () => {
+      console.log(post)
+
+      try {
+        const authToken = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:8000/api/v1/comment/getCommentById/${post._id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+        if (response.ok) {
+          const responseData = await response.json();
+          setComment(responseData.comment);
+          setfetchComment(true)
 
 
 
-                
+          
 
-              }
-              else {
-                console.log("error")
-              }
-            } catch (error) {
-              console.log(error);
-            }
         }
-        getCommentById();
+        else {
+          console.log("error")
+        }
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
+
+    useEffect(()=>{
+                getCommentById();
     },[post])
 
 
@@ -55,8 +58,11 @@ const Commentform=({post})=> {
     }
 
     const handleOnSubmit =async (e)=>{
+
         e.preventDefault()
         await createComment()
+        await getCommentById();
+        
         console.log(commentFormData)
     }
     const createComment =async()=>{
@@ -76,6 +82,7 @@ const Commentform=({post})=> {
                 
             })
             if(response.ok) {
+
                 const responseData = await response.json()
                 console.log("comment created sucessfully")
             }
@@ -107,9 +114,15 @@ const Commentform=({post})=> {
   
 </div>
 <div className="w-full space-y-4">
-    {comment.map((comment) => (
+  <>
+  {
+    comment.length===0 ? <div>"comment not found" </div> :
+  
+    comment.map((comment) => (
       <Commentcard comment={comment} />
-    ))}
+    ))
+}
+    </>
   </div>
 </>
 
