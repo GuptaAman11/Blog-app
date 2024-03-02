@@ -5,6 +5,8 @@ const {verifyJWT} = require('../middleware/verify')
 const { uploadImage ,getImage} = require('../controllers/uploadimage');
 const { upload } = require('../middleware/ImageUpload');
 
+
+
 router.post('/createPost',verifyJWT,upload.single('picture'),createPost)
 router.put('/updatePost/:id',verifyJWT, updatePost)
 router.delete('/deletePost/:id',verifyJWT,deletePost)

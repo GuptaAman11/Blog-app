@@ -37,27 +37,28 @@ const updatePost= async (req, res) => {
         const {title , desc , categories} = req.body;
         const {id} = req.params;
         const user = req.user._id;
-        let picture ;
         const post = await Post.findById(id);
         console.log(post.author)
         console.log(user)
-        if (post.author.toString() === user.toString()) {
+        // if (post.author.toString() === user.toString()) {
 
-            picture = req.file.path
 
             const updatedPost = await Post.findByIdAndUpdate(id,{
                 title :title,
                 desc : desc ,
-                picture : picture ,
                 categories : categories
 
             })
             await updatedPost.save();
-            res.status(200).json({msg:"updated post",updatedPost});
+            // post.title=title;
+            // post.desc=desc;
+            // post.categories=categories
+            // await post.save()
+            res.status(200).json({msg:"updated post",updatedPost,post});
           
-        } else {
-            res.status(401).json("You can update only your post!");
-        }
+        // } else {
+        //     res.status(401).json("You can update only your post!");
+        // }
     } catch (err) {
         res.status(500).json(err);
     }

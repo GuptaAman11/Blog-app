@@ -286,10 +286,10 @@ const PostForm = ({ setFetchPost }) => {
             >
               <option value="All_Category">All Category</option>
               <option value="Music">Music</option>
-              <option value="Fashion">Movie</option>
+              <option value="Movies">Movie</option>
               <option value="Sport">Sport</option>
-              <option value="College">Tech</option>
-              <option value="Article">Fashion</option>
+              <option value="Tech">Tech</option>
+              <option value="Fashion">Fashion</option>
             </select>
           </div>
           <div className="mb-4">

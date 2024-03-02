@@ -84,35 +84,27 @@ const UpdatePost = () => {
 
 
 
-  const [file, setfile] = useState("");
+  const [postFormData , setpostFormData] = useState({
+    postTitle : ""  , postDesc : "" ,postPicture :""
+  })
 
-  const [postFormData, setPostFormData] = useState({
-    postTitle: "",
-    postDesc: "",
-    postPicture: "",
-  });
+  const[post ,setPost] = useState("")
+  const {postId} = useParams();
 
-  const [post, setPost] = useState("");
-  const { postId } = useParams();
+  const url = postFormData.picture ? postFormData.picture : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
 
-  const url = postFormData.picture
-    ? postFormData.picture
-    : "https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const authToken = localStorage.getItem("token");
-        const response = await fetch(
-          `http://localhost:8000/api/v1/post/getPostByPostId/${postId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${authToken}`,
-            },
+        const authToken = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:8000/api/v1/post/getPostByPostId/${postId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
           }
-        );
+        });
         if (response.ok) {
           const responseData = await response.json();
           setPost(responseData);
@@ -120,67 +112,67 @@ const UpdatePost = () => {
       } catch (error) {
         console.log(error);
       }
-    };
+    }
     fetchData();
   }, []);
 
 
+
   
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setPostFormData({
-      ...postFormData,
-      [name]: value,
-    });
-  };
 
-  const handleOnSubmit = async (e) => {
-    e.preventDefault();
+ 
+  const updateContent = async()=>{
     try {
-          const authToken = localStorage.getItem('token');
-          if (!file) {
-            toast.error('Please select a file.');
-            return;
-          }
+        const authToken = localStorage.getItem('token')
+        const response =await fetch(`http://localhost:8000/api/v1/post/updatePost/${post._id}`,{
+            method : 'PUT' ,
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
     
-          const formData = new FormData();
-          formData.append('title', postFormData.postTitle);
-          formData.append('desc', postFormData.postDesc);
-          formData.append('categories', postFormData.postCategory);
-          formData.append('picture', file);
+            },
+            body: JSON.stringify({
+                title: postFormData.postTitle,
+                desc: postFormData.postDesc,
+                categories : post.categories
+              }),
     
-          const response = await axios.put(
-            `http://localhost:8000/api/v1/post/updatePost/${postId}`,
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${authToken}`,
-              },
-            }
-          );
+        })
     
-          const responseData = response.data;
-          if (response.status === 200) {
-            toast.success('Post created successfully');
-            console.log(responseData);
-            setfile(null)
-          setPostFormData({
-            postTitle: '',
-             postDesc: '',
-              postCategory: '',
-          })
-          } else {
-            toast.error('Failed to update post');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-          toast.error('An error occurred while creating the post');
+        if(response.ok){
+            const responseData = await response.json()
+            setPost(responseData) ;
+            console.log("sucess")
+    
         }
+        else {
+            console.log("something went worng on updating")
+        }
+    } catch (error) {
+        console.log(error)
         
-      }
+    }
+  }
 
-    console.log(postFormData);
+  
+
+  const handleOnChange =(e)=>{
+    const {name ,value} = e.target
+      setpostFormData({
+
+        ...postFormData , 
+        [name] : value
+
+
+      })
+  }
+
+  const handleOnSubmit =async(e)=>{
+    e.preventDefault();
+    updateContent();
+   
+    console.log(postFormData)
+  }
   
 
 
@@ -248,14 +240,13 @@ const UpdatePost = () => {
               className="w-full py-2 focus:outline-none border-b border-gray-300"
             ></textarea>
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label htmlFor="file" className="block text-gray-600">File</label>
             <input
               type="file"
-              onChange={(e) => setfile(e.target.files[0])}
               className="w-full py-2 focus:outline-none border-b border-gray-300"
             />
-          </div>
+          </div> */}
           <div className="text-center">
             <button
               type="submit"

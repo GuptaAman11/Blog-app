@@ -4,7 +4,6 @@ import PostForm from './PostForm'
 import Navbar from './Navbar'
 import { useEffect ,useState } from 'react'
 import '../../css/home.css'
-// import '../../css/category.css'
 
 import {NavLink, Navigate, useNavigate ,useParams,Link} from 'react-router-dom'
 import LikeHook from './LikeHook'
@@ -33,6 +32,7 @@ const Home = () => {
     const responseData = await response.json()
     if(response.ok){
       setposts(responseData)
+      console.log("thi is the post",posts)
       // console.log(responseData)
       
       
