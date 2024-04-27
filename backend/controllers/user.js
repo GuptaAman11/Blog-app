@@ -10,7 +10,7 @@ const register = async (req, res) => {
             res.json({ mssg: "all fields are required" })
         }
 
-        const existingUser = await User.findOne({ email: email })
+        let existingUser = await User.findOne({ email: email })
         if (existingUser) {
             res.json({ mssg: "user already exists" })
         }
@@ -25,8 +25,15 @@ const register = async (req, res) => {
 
         )
         await newUser.save();
+        const token = await new TokenExpiredError({
+            userId: user._id,
+            token:crypto.randomBytes(32).toString("hex"),
+        }).save();
+        const url = `${process.env.BASE_URL}users/${user._id}/verify/${token.token}`;
+        await sendEmail(user.email,"Verify Email",url);
 
-        res.json({ mssg: "user created succesfully" })
+
+        res.json({ mssg: "An Email is sent to your account, please verify" })
 
     } catch (error) {
         console.log(error)
@@ -50,13 +57,43 @@ const login = async (req, res) => {
             const token = jwt.sign({ user : user }, 'secret_key', { expiresIn: '1h' })
             res.json({ mssg: "user logged in succesfully", user: user, token: token })
         }
-
+        if (!user.verified){
+            let token = await TokenExpiredError.findOne({ userId: user._id});
+            if (!token) {
+                token = await new Token({
+                    userId: user._id,
+                    token:crypto.randomBytes(32).toString("hex"),
+                }).save();
+                const url = `${process.env.BASE_URL}users/${user._id}/verify/${token.token}`;
+                await sendEmail(user.email,"Verify Email",url);
+                }
+                return res.status(400).send({message:"An email sent t your account please verify"});
+        }
     } catch (error) {
         res.json(error);
         console.log(error)
     }
 }
 
+
+router.get("/:id/verify/:token", async(req, res)=> {
+    try{
+        const user = await User.findOne({_id: req.params.id});
+        if(!user) return res.send(400).send({message:"Invalid link"});
+
+        const token = await TokenExpiredError.findOne({
+            userId: user._id,
+            token: req.params.token
+        })
+        if (!token) return res.send(400).send({message:"Invalid link"});
+
+        await User.updateOne({_id:user._id, verified: true});
+        await token.remove();
+        res.status(200).send({message:"Email verified successfully"});
+    } catch (error) {
+        res.status(500).send({message:"Internal Server Error"});
+    }
+})
 // const updateUserProfile = asyncHandler (async (req, res) => {
 //   const user =await User.findById(req.user._id);
 
