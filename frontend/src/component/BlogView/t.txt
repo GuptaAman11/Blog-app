@@ -1,0 +1,37 @@
+const getCommentById = async () => {
+   
+    try {
+      const authToken = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:8000/api/v1/comment/getCommentById/${postId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        setComment(responseData);
+        console.log(responseData);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+    useEffect(()=>{
+        getCommentById();
+    },[])
+
+
+
+
+
+
+        {
+          comment.map((comment) => (
+            <Commentcard  />
+          ))
+        }
+      </div>
+    </div>
+
