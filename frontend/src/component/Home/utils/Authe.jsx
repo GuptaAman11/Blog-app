@@ -5,6 +5,7 @@ const Authe = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Check for authentication token when the component mounts
+  console.log(isAuthenticated)
   useEffect(() => {
     const authToken = localStorage.getItem('token');
     if (authToken) {

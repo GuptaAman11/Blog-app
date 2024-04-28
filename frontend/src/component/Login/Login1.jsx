@@ -86,7 +86,7 @@ const Login1 = () => {
         <form action="" onSubmit={handleOnSubmit}>
           <label for="email">Email</label>
           <div class="mb-4">
-            <input type="text" placeholder="Email" name="loginEmail" required onChange={handleInputForm} class="w-full px-3 py-2 border rounded-lg" />
+            <input type="email" placeholder="Email" name="loginEmail" required onChange={handleInputForm} class="w-full px-3 py-2 border rounded-lg" />
           </div>
           <label for="password">Password</label>
           <div class="mb-4">

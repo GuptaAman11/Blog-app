@@ -26,6 +26,12 @@ const PostCard = ({post}) => {
      
     }
  }
+
+  
+
+
+
+
  const url = post.picture ? `http://localhost:8000/${post.picture.replace(/^uploads[\/\\]/, '')}` : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
 
   return (
@@ -42,7 +48,7 @@ const PostCard = ({post}) => {
             <div class="flex-1">
                 <div class="mb-5">
                     <span class="block text-gray-700 text-sm font-semibold mb-1">{post.title}</span>
-                    <span class="block text-gray-700 text-sm font-semibold">{post.createdAt}</span>
+                    <span class="block text-gray-700 text-sm font-semibold">{post.createdAt ? (post.createdAt) : (post.date)}</span>
                 </div>
                 <h1 class="text-2xl font-bold text-blue-500 mb-3 uppercase">{post.title}</h1>
                 <p class="text-sm text-gray-600 mb-5">{post.desc ? (post.desc): (post.content)}</p>

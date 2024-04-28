@@ -34,7 +34,7 @@ const Home = () => {
         </div>
         <Category setcat={setcat}/>
         <Link to={'/trends'}>
-        <div><button  className='text-white-700 text-sm font-semibold mb-1  bg-purple-900 p-4 ml-4'>Trending</button> </div>
+        <div><button  className='text-white-700 text-sm font-semibold mb-1  bg-black-900 p-4 ml-4'>Trending</button> </div>
         </Link>
         <div className='post flex flex-wrap justify-center gap-5'>
           

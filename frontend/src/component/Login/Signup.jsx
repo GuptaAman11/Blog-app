@@ -9,6 +9,7 @@ const Signup = () => {
     const [registerFormData, setregisterFormData] = useState({
         registerEmail:"" , registerName : ""  , registerPassword : ""
      })
+     const [msg, setMsg] = useState('')
   
      const register = async()=> {
   
@@ -28,16 +29,15 @@ const Signup = () => {
              }),
            });
            const responseData = await response.json();
-           if (response.status===200) {
-               toast.success('user created');
-               console.log("hii")
-               console.log(responseData)
+           setMsg(responseData.msg)
+           
+           if (response) {
+            toast.success(responseData.msg);
                
            }
            else {
-              //  toast.error(response.error)
-              console.log(response.error)
-           }
+            toast.error(responseData.msg);
+          }
         }
         catch(error){
            console.log(error)
@@ -59,7 +59,6 @@ const Signup = () => {
   
         e.preventDefault()
         await register()
-        console.log(registerFormData)
       }
   return (
     <div class="min-h-screen flex items-center justify-center bg-purple-700">
@@ -68,7 +67,7 @@ const Signup = () => {
         <img src="https://image.freepik.com/free-vector/login-concept-illustration_114360-739.jpg" alt="img" class="h-full w-full object-cover" />
       </div>
       <div class="w-1/2 p-5">
-        <h1 class="text-2xl font-bold text-blue-500 mb-4">Login</h1>
+        <h1 class="text-2xl font-bold text-blue-500 mb-4">SignUp</h1>
         <form action="" onSubmit={handleOnSumbit}>
           <label for="Username">Username</label>
           <div class="mb-4">
@@ -76,7 +75,7 @@ const Signup = () => {
           </div>
           <label for="email">Email</label>
           <div class="mb-4">
-            <input type="text" placeholder="Email" name="registerEmail"onChange={handleInputChange} class="w-full px-3 py-2 border rounded-lg" />
+            <input type="email" placeholder="Email" name="registerEmail"onChange={handleInputChange} class="w-full px-3 py-2 border rounded-lg" />
           </div>
           <label for="password">Password</label>
           <div class="mb-4">

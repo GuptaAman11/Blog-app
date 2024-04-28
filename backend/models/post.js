@@ -27,7 +27,8 @@ const PostSchema = new mongoose.Schema({
     },
     categories: {
         type: String,
-        required : true
+        required : true ,
+        default : "Music"
     },
 
     comments: [{

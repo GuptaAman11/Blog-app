@@ -4,7 +4,7 @@ const Post = require("../models/post");
 
 //for NEW POST
 const createPost = async (req, res) => {
-    const {title,desc  , categories}=req.body;
+    const {title,desc }=req.body;
     let picture ;
     if(req.file){
         picture = req.file.path
@@ -20,7 +20,6 @@ const createPost = async (req, res) => {
             desc : desc,
             author :  user ,
             picture : picture,
-            categories : categories
         });
         res.status(200).json(savedPost);
         console.log(picture)

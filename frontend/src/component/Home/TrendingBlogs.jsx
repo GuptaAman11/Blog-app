@@ -29,7 +29,7 @@ const TrendingBlogs = () => {
             
             <div class="absolute bottom-4 right-4 ">
                 <button class="bg-blue-500 text-white px-5 py-2 rounded-lg" >Like {trends?.likes?.length}</button>
-                <button class="bg-gray-700 text-white px-5 py-2 rounded-lg">{trend.length}</button>
+                <button class="bg-gray-700 text-white px-5 py-2 rounded-lg">Comment</button>
             </div>
         </div>
              ))

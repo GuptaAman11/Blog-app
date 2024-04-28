@@ -17,6 +17,8 @@ import Signup from './component/Login/Signup';
 import Authe from './component/Home/utils/Authe';
 import Login1 from './component/Login/Login1';
 import TrendingBlogs from './component/Home/TrendingBlogs';
+import ShowNavBar from './component/Home/ShowNavbar/ShowNavBar';
+import EmailVerify from './component/Home/EmailVerify/EmailVerify';
 
 
 
@@ -32,7 +34,9 @@ function App() {
      
       <Router>
       <div>
-        <Navbar/>
+        <ShowNavBar>
+          <Navbar />
+        </ShowNavBar>
         
       </div>
         
@@ -42,6 +46,8 @@ function App() {
 
 
           <Route path='/login' element={<Login1 /> } />
+          <Route path='/signup' element={<Signup /> } />
+
           <Route path='/home' element={<Home />} />
 
           
@@ -52,11 +58,11 @@ function App() {
           <Route path='/trends' element={<TrendingBlogs />} />
 
           
-        
+          <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
+
           <Route path='/update/:postId' element={<UpdatePost />} />
 
             <Route path='/about' element={<About /> } />
-            <Route path='/signup' element={<Signup /> } />
 
 
         </Routes>
