@@ -1,4 +1,5 @@
 import React,{useEffect} from 'react'
+import { Link } from 'react-router-dom'
 const {useFindTrendingPost } = require('../hooks/post')
 
 const TrendingBlogs = () => {
@@ -16,7 +17,8 @@ const TrendingBlogs = () => {
                 trend.map((trends)=> (
                     <div class="blog-trends bg-blue-900 bg-opacity-25 shadow-md rounded-lg flex items-center space-x-10 my-10 p-10 relative ">
             <div class="w-96 h-72 relative">
-                <img src={url} alt="Blog trends Image" class="w-full h-full object-cover rounded-lg" />
+                <Link to={`/blogview/${trends._id}`}>
+                <img src={url} alt="Blog trends Image" class="w-full h-full object-cover rounded-lg" /> </Link>
                 
                 <div class="absolute w-full h-full top-0 left-0 shadow-md bg-opacity-50 rounded-lg"></div>
             </div>
@@ -29,7 +31,8 @@ const TrendingBlogs = () => {
             
             <div class="absolute bottom-4 right-4 ">
                 <button class="bg-blue-500 text-white px-5 py-2 rounded-lg" >Like {trends?.likes?.length}</button>
-                <button class="bg-gray-700 text-white px-5 py-2 rounded-lg">Comment</button>
+                <Link to={`/home/blogview/${trends._id}`}>
+                <button class="bg-gray-700 text-white px-5 py-2 rounded-lg">Comment</button></Link>
             </div>
         </div>
              ))

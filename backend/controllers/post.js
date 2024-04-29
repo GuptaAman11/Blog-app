@@ -14,17 +14,16 @@ const createPost = async (req, res) => {
     
     console.log(picture)
     try {
-        const user = req.user._id
+        const user = req.user.user._id
         const savedPost= await Post.create({
             title : title , 
             desc : desc,
             author :  user ,
             picture : picture,
         });
-        res.status(200).json(savedPost);
-        console.log(picture)
+        return res.status(200).json(savedPost);
     } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 };
 
@@ -33,10 +32,9 @@ const updatePost= async (req, res) => {
     try {
         const {title , desc , categories} = req.body;
         const {id} = req.params;
-        const user = req.user._id;
+        const user = req.user.user._id;
         const post = await Post.findById(id);
-        console.log(post.author)
-        console.log(user)
+     
         // if (post.author.toString() === user.toString()) {
 
 
@@ -51,61 +49,58 @@ const updatePost= async (req, res) => {
             // post.desc=desc;
             // post.categories=categories
             // await post.save()
-            res.status(200).json({msg:"updated post",updatedPost,post});
+            return res.status(200).json({msg:"updated post",updatedPost,post});
           
         // } else {
         //     res.status(401).json("You can update only your post!");
         // }
     } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 };
 
 // for DELETE POST
 const deletePost = async (req, res) => {
     try {
-        const user = req.user._id
+        const user = req.user.user._id
         
         const { id } = req.params;
         const post = await Post.findById(id);
+        console.log("first",post) 
+        console.log("second",user)
     
         if (!post) {
             return res.status(404).json("Post not found");
         }
         
-
-        
-           if(post.author.toString() === user.toString() )
-                {await Post.findByIdAndDelete(id);
-                return res.status(200).json("Post has been deleted");
-            }
-            else{
-                return res.status(500).json({msg:"error"})
-            }
-            } 
-     catch (err) {
-        console.log(err)
+        // Check if post.author exists and is not undefined before using toString
+        if (post.author && post.author.toString() === user.toString()) {
+            await Post.findByIdAndDelete(id);
+            return res.status(200).json("Post has been deleted");
+        } else {
+            return res.status(403).json("You are not authorized to delete this post");
+        }
+    } catch (err) {
+        console.log(err);
         return res.status(500).json(err);
-        
     }
-  
 };
 
 
 // for GET POST
 const getPost= async (req, res) => {
 
-    const user = req.user._id;
+    const user = req.user.user._id;
     try {
 
         if(true){
             const post = await Post.find().sort({createdAt:-1}).populate('author')
-            res.status(200).json(post);
+            return res.status(200).json(post);
         }
         
 
     } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 };
 // finding post by user id
@@ -135,13 +130,13 @@ const getPostByPostId = async(req,res)=>{
     try {
         const {postId}= req.params
         console.log(postId)
-        const post = await Post.findById(postId)
+        const post = await Post.findById(postId).populate('author')
         if(!post){
-            res.status(401).json({msg:"post not found"}).populate('author')
+            res.status(401).json({msg:"post not found"})
         }
-        res.status(200).json(post)
+        return res.status(200).json(post)
     } catch (error) {
-        res.status(500).json(error);
+        return res.status(500).json(error);
         
     }
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams , Link} from 'react-router-dom';
+import { useParams , Link, useNavigate} from 'react-router-dom';
 import Commentform from './Commentform';
 import '../../css/postcard.css'
 import { toast } from 'react-toastify';
+import { useLikeInPost } from '../hooks/post';
 
 
 
@@ -11,6 +12,16 @@ const Blogview = () => {
   const { postId } = useParams();
   const [post, setPost] = useState("");
   const [fetchComment, setfetchComment] = useState(false);
+  const navigate = useNavigate();
+
+  const {likePost}= useLikeInPost()
+
+  const likedPost =async() => {
+
+    likePost(post._id)
+
+  }
+
 
   const url = post.picture ? `http://localhost:8000/${post.picture.replace(/^uploads[\/\\]/, '')}` : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
 
@@ -50,6 +61,7 @@ const Blogview = () => {
       });
 
       if (response.status===200) {
+        navigate('/home');
         toast.success('Post deleted successfully');
       } else {
         toast.error('Failed to delete post');
@@ -75,7 +87,7 @@ const Blogview = () => {
             </div>
             <div className="flex-1">
                 <div className="mb-5">
-                    <span className="block text-gray-700 text-sm font-semibold mb-1">{post.title}</span>
+                    <span className="block text-gray-700 text-sm font-semibold mb-1">{post?.author?.name}</span>
                     <span className="block text-gray-700 text-sm font-semibold">{post.createdAt}</span>
                 </div>
                 <h1 className="text-2xl font-bold text-blue-500 mb-3 uppercase">{post.title}</h1>
@@ -89,7 +101,7 @@ const Blogview = () => {
               <button className="bg-blue-500 text-white px-11 py-2 rounded-lg mr-1" >update</button>
 
               </Link>
-                <button className="bg-blue-500 text-white px-5 py-2 rounded-lg mr-1">Like</button>
+                <button className="bg-blue-500 text-white px-5 py-2 rounded-lg mr-1" onClick={() => likedPost(post?._id)}>Like {post?.like?.length}</button>
                 <button className="bg-gray-700 text-white px-5 py-2 rounded-lg mr-1">Comment</button>
             </div>
         </div>

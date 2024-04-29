@@ -6,14 +6,13 @@ import { useEffect ,useState } from 'react'
 import '../../css/home.css'
 
 import {NavLink, Navigate, useNavigate ,useParams,Link} from 'react-router-dom'
-import LikeHook from './LikeHook'
 import Category from './Category'
-import { useGetPost } from '../hooks/post'
+import { useGetPost, useLikeInPost } from '../hooks/post'
 
 
 
 const Home = () => {
-  const {cat,posts,fetchPost,setFetchPost,getPostByCategory,setcat,getPost} = useGetPost() 
+  const {cat,posts,fetchPost,setFetchPost,getPostByCategory,setcat,getPost,like ,setLike} = useGetPost() 
   useEffect(()=>{
     if(cat){
       getPostByCategory(cat)
@@ -21,7 +20,7 @@ const Home = () => {
     else{
       getPost()
     }
-  },[fetchPost,cat])
+  },[fetchPost,cat ,like])
 
   return (
     <div>
@@ -44,7 +43,7 @@ const Home = () => {
             <>
           
             <Link>
-              <PostCard post={post}/>
+              <PostCard post={post} setLike={setLike} />
               </Link>
         
             
@@ -55,7 +54,6 @@ const Home = () => {
         }
 
         </div>
-        <div><LikeHook /></div>
     </div>
   )
 }

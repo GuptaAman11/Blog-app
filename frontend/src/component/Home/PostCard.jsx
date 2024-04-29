@@ -1,31 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
+import { useLikeInPost } from '../hooks/post'
 
-const PostCard = ({post}) => {
+const PostCard = ({post ,setLike}) => {
+    const {likePost}= useLikeInPost()
 
-  const likePost =async(postId) => {
-    try {
-      const authToken = localStorage.getItem('token')
+  const likedPost =async() => {
 
-      const response = await fetch(`http://localhost:8000/api/v1/like/likeInPost/${postId}` , {
-          method : 'POST' ,
-          headers : {
-              'Content-Type' : 'application/json',
-              'Authorization': `Bearer ${authToken}`
-          }
-      })
+    likePost(post._id,setLike)
 
-      if(response.ok){
-          const responseData = await response.json()
-          console.log(responseData)
-      }
-
-    } catch (error) {
-
-         console.log(error)
-     
-    }
- }
+  }
+  
 
   
 
@@ -47,7 +32,7 @@ const PostCard = ({post}) => {
             </div>
             <div class="flex-1">
                 <div class="mb-5">
-                    <span class="block text-gray-700 text-sm font-semibold mb-1">{post.title}</span>
+                    <span class="block text-gray-700 text-sm font-semibold mb-1">{post?.author?.name ? (post.author.name) : (post?.author)}</span>
                     <span class="block text-gray-700 text-sm font-semibold">{post.createdAt ? (post.createdAt) : (post.date)}</span>
                 </div>
                 <h1 class="text-2xl font-bold text-blue-500 mb-3 uppercase">{post.title}</h1>
@@ -56,7 +41,7 @@ const PostCard = ({post}) => {
             </div>
             
             <div class="absolute bottom-4 right-4 ">
-                <button class="bg-blue-500 text-white px-5 py-2 rounded-lg" onClick={() => likePost(post?._id)}>Like {post?.likes?.length}</button>
+                <button class="bg-blue-500 text-white px-5 py-2 rounded-lg" onClick={() => likedPost(post?._id)}>Like {post?.likes?.length}</button>
                 <Link to={`blogview/${post._id}`}>
                 <button class="bg-gray-700 text-white px-5 py-2 rounded-lg">Comment</button>
                 </Link>
