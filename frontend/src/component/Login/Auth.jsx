@@ -27,7 +27,7 @@ const Auth = () => {
         const endpoint = isLogin ? 'login' : 'register';
         
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/users/${endpoint}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/users/${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

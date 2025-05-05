@@ -9,7 +9,7 @@ export function useFindTrendingPost() {
   const [trend, setTrend] = useState([]);
   const trendFind = async () => {
     const authToken = localStorage.getItem('token');
-    const response = await fetch('http://localhost:8000/api/v1/post/api/cluster-assignments', {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/post/api/cluster-assignments`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export function useAiToGetDescription() {
       
 
       const response = await fetch(
-        'http://localhost:8000/api/v1/ai/gemini',{
+        `${process.env.REACT_APP_API_URL}/api/v1/ai/gemini`,{
           method : "POST",
           headers: {
             'Content-Type' : 'application/json',
@@ -72,7 +72,7 @@ export function useAddPost() {
       formData.append('picture', file);
 
       const response = await axios.post(
-        'http://localhost:8000/api/v1/post/createPost',
+        `${process.env.REACT_APP_API_URL}/api/v1/post/createPost`,
         formData,
         {
           headers: {
@@ -113,7 +113,7 @@ export function useGetPost() {
     
       try {
         const authToken = localStorage.getItem('token')
-        const response = await fetch(`http://localhost:8000/api/v1/post/get5post?page=${loadMore}&search=${searchQuery}`,{
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/post/get5post?page=${loadMore}&search=${searchQuery}`,{
           method : 'GET' , 
             headers :{
               'Content-Type' : 'application/json',
@@ -143,7 +143,7 @@ export function useGetPost() {
 
   const getPostByCategory = async(cat)=>{
     const authToken = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:8000/api/v1/post/getPostByCategory?category=${cat}`,{
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/post/getPostByCategory?category=${cat}`,{
       method : 'GET' , 
         headers :{
           'Content-Type' : 'application/json',
@@ -181,7 +181,7 @@ export function useUpdatePost(postFormData){
 
       try {
         const authToken = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:8000/api/v1/post/getPostByPostId/${postId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/post/getPostByPostId/${postId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -204,7 +204,7 @@ export function useUpdatePost(postFormData){
 
     try {
         const authToken = localStorage.getItem('token')
-        const response =await fetch(`http://localhost:8000/api/v1/post/updatePost/${post._id}`,{
+        const response =await fetch(`${process.env.REACT_APP_API_URL}/api/v1/post/updatePost/${post._id}`,{
             method : 'PUT' ,
             headers : {
                 'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ export function useLikeInPost () {
     try {
       const authToken = localStorage.getItem('token');
 
-      const response = await fetch(`http://localhost:8000/api/v1/like/likeInPost/${postId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/like/likeInPost/${postId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -272,7 +272,7 @@ export function useGetPostByUserId() {
   const getPostByUserId = async(userId) => {
     const authToken = localStorage.getItem('token')
     try{
-      const response = await fetch(`http://localhost:8000/api/v1/post/getPostById/${userId}`,{
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/post/getPostById/${userId}`,{
         method : 'GET' ,
         headers: {
           'Content-Type': 'application/json',
@@ -302,7 +302,7 @@ export function useDeletePost() {
   const deletePost = async (postId) => {
     try {
       const authToken = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8000/api/v1/post/deletePost/${postId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/post/deletePost/${postId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

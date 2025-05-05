@@ -7,7 +7,7 @@ export function useGetUserInfo() {
     const getUserInfo = async(userId) => {
         try {
             const authToken = localStorage.getItem('token')
-            const response = await fetch(`http://localhost:8000/api/v1/users/userinfo/${userId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/users/userinfo/${userId}`, {
                 method : 'POST' , 
                 headers :{
                 'Content-Type' : 'application/json',

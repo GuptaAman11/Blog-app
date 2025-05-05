@@ -6,7 +6,7 @@ export function useFollow () {
       try {
         const authToken = localStorage.getItem('token');
   
-        const response = await fetch(`http://localhost:8000/api/v1/follow/follow/${userId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/follow/follow/${userId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export function useFollow () {
         try {
             const authToken = localStorage.getItem('token');
       
-            const response = await fetch(`http://localhost:8000/api/v1/follow/isfollow/${userId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/follow/isfollow/${userId}`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',

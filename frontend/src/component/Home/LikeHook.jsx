@@ -8,7 +8,7 @@
 //         const postId = '65162af62140557eb631197f'
 //          const authToken = localStorage.getItem('token')
  
-//          const response = await fetch(`http://localhost:8000/api/v1/like/likeInPost/${postId}` , {
+//          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/like/likeInPost/${postId}` , {
 //              method : 'POST' ,
 //              headers : {
 //                  'Content-Type' : 'application/json',

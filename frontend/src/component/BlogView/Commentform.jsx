@@ -13,7 +13,7 @@ const Commentform=({post ,setfetchComment})=> {
 
       try {
         const authToken = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:8000/api/v1/comment/getCommentById/${post._id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/comment/getCommentById/${post._id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const Commentform=({post ,setfetchComment})=> {
     const createComment =async()=>{
         try {
             const authToken = localStorage.getItem('token')
-            const response = await fetch(`http://localhost:8000/api/v1/comment/newComments/${post._id}`,{
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/comment/newComments/${post._id}`,{
                 method : 'POST' , 
                 headers : {
                     'Content-Type' : 'application/json',
