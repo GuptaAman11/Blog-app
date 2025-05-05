@@ -4,4 +4,4 @@ const router = Router();
 
 router.post('/details',addDetails)
 
-module.exports = router
+module.exports = router    

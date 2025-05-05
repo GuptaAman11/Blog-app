@@ -1,29 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 const Authe = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // Check for authentication token when the component mounts
-  console.log(isAuthenticated)
   useEffect(() => {
     const authToken = localStorage.getItem('token');
-    if (authToken) {
-      setIsAuthenticated(true);
-    }
+    setIsAuthenticated(!!authToken); // Set to true if token exists
+    setLoading(false); // Stop loading once authentication status is determined
   }, []);
 
-  return (
-    <div>
-      {isAuthenticated ? (
-        // If authenticated, render the child routes
-        <Outlet />
-      ) : (
-        // If not authenticated, navigate to the login page
-        <Navigate to="/login" />
-      )}
-    </div>
-  );
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator
+  }
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-export default Authe ;
+export default Authe;

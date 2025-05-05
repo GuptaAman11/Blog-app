@@ -11,7 +11,7 @@ try {
         const {postId} = req.params ;
         const post = await Post.findById(postId) ; 
         if(!post) {
-            res.status(401).json({msg:"post not found"})
+            res.status(401).json({message:"post not found"})
         }
     
         const like = await Like.findOne({likeOnPost:postId , likeedByOnPost:user})
@@ -21,16 +21,21 @@ try {
                 likeOnPost: postId,
                 likeedByOnPost: user
             });
-            await newLike.save();
+            await newLike.save()
 
 
             post.likes = post.likes || [];
             if (!post.likes.includes(user)) {
                 post.likes.push(user);
                 await post.save();
-            }
+            }    
+            console.log(post.likes);
+            return res.status(201).json({
+                 message: "Post liked",
+                 like: newLike ,
+                 isLikedByCurrentUser: true,
 
-            return res.status(201).json({ msg: "Post liked", like: newLike });
+                });
         } else {
             await Like.findByIdAndDelete(like._id);
 
@@ -40,8 +45,11 @@ try {
                 post.likes.pull(user);
                 await post.save();
             }
+            console.log(post.likes);
 
-            return res.status(201).json({ msg: "Post disliked" });
+            return res.status(201).json({ message: "Post disliked",isLikedByCurrentUser: false,
+            
+            });
         }
 
 
@@ -67,7 +75,7 @@ const likeInComment = async (req, res) => {
         console.log(comment)
         const user = user ;
         if(!comment){
-            res.status(401).json({msg :"comment not found"});
+            res.status(401).json({message :"comment not found"});
 
         }
 
@@ -79,7 +87,7 @@ const likeInComment = async (req, res) => {
                 likeedByOnComment : user
             })
             await newLike.save();
-            res.status(200).json({msg:"done", like :newLike})
+            res.status(200).json({message:"done", like :newLike})
         }
 
 

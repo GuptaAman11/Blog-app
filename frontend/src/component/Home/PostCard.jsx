@@ -1,57 +1,88 @@
-import React, { useState } from 'react'
-import {Link} from 'react-router-dom'
-import { useLikeInPost } from '../hooks/post'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useDeletePost, useLikeInPost } from '../hooks/post';
+import { useSupplier } from '../../context/postRefresh';
 
-const PostCard = ({post ,setLike}) => {
-    const {likePost}= useLikeInPost()
+const PostCard = ({ post, fieldInPostCard, queryWalaPost }) => {
+  const { deletePost } = useDeletePost();
+  const { likePost } = useLikeInPost();
+  const { triggerUpdate } = useSupplier();
 
-  const likedPost =async() => {
+  // Local state for like status and like count
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post?.likes?.length || 0);
 
-    likePost(post._id,setLike)
+  // Initialize like status based on post's initial data
+  useEffect(() => {
+    // Assuming `post.isLiked` is passed from the backend if the current user liked the post
+    setIsLiked(post?.isLiked || false);
+  }, [post]);
 
-  }
-  
+  const handleLike = async () => {
+    await likePost(post?._id).then(() => {
+      triggerUpdate(); // Notify parent component to update if necessary
 
-  
+      // Toggle the `isLiked` status and adjust `likeCount`
+      setIsLiked((prev) => !prev);
+      setLikeCount((prevCount) => isLiked ? prevCount - 1 : prevCount + 1);
+    });
+  };
 
-
-
-
- const url = post.picture ? `http://localhost:8000/${post.picture.replace(/^uploads[\/\\]/, '')}` : 'https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180';
+  const handleDelete = async () => {
+    await deletePost(post?._id);
+    triggerUpdate(); // Notify parent component
+  };
 
   return (
-        <div>
-
-        <div class="blog-post bg-blue-900 bg-opacity-25 shadow-md rounded-lg flex items-center space-x-10 my-10 p-10 relative ">
-            <div class="w-96 h-72 relative">
-                <Link to={`blogview/${post._id}`}>
-                <img src={url} alt="Blog Post Image" class="w-full h-full object-cover rounded-lg" />
-                
-                <div class="absolute w-full h-full top-0 left-0 shadow-md bg-opacity-50 rounded-lg"></div>
-                </Link>
-            </div>
-            <div class="flex-1">
-                <div class="mb-5">
-                    <span class="block text-gray-700 text-sm font-semibold mb-1">{post?.author?.name ? (post.author.name) : (post?.author)}</span>
-                    <span class="block text-gray-700 text-sm font-semibold">{post.createdAt ? (post.createdAt) : (post.date)}</span>
-                </div>
-                <h1 class="text-2xl font-bold text-blue-500 mb-3 uppercase">{post.title}</h1>
-                <p class="text-sm text-gray-600 mb-5">{post.desc ? (post.desc): (post.content)}</p>
-                {/* <a href="#" class="block py-3 px-6 text-white uppercase text-sm rounded-lg bg-gradient-to-r from-pink-500 to-blue-500">Read More</a> */}
-            </div>
-            
-            <div class="absolute bottom-4 right-4 ">
-                <button class="bg-blue-500 text-white px-5 py-2 rounded-lg" onClick={() => likedPost(post?._id)}>Like {post?.likes?.length}</button>
-                <Link to={`blogview/${post._id}`}>
-                <button class="bg-gray-700 text-white px-5 py-2 rounded-lg">Comment</button>
-                </Link>
-            </div>
+    <div className="max-w-6xl mx-auto px-4">
+      <div className="blog-post bg-blue-900 bg-opacity-25 shadow-md rounded-lg 
+        flex flex-col md:flex-row items-center md:space-x-10 space-y-6 md:space-y-0 
+        my-10 p-4 md:p-10 relative">
+        
+        {/* Image Section */}
+        <div className="w-full md:w-96 h-48 md:h-72 relative">
+          <Link to={`/blogview/${post._id}`}>
+          <img src={post?.picture?(post.picture): ("https://tse3.mm.bing.net/th?id=OIP.IaUnm6JD3StW_ea8WMVjZgHaE3&pid=Api&P=0&h=180")} alt="Blog Post Image" className="w-full h-full object-cover rounded-lg" />
+          </Link>
         </div>
+        
+        {/* Content Section */}
+        <div className="flex-1 w-full">
+          <div className="mb-5">
+            <Link to={`/profile/${post?.author?._id}`}>
+              <span className="block text-gray-700 text-sm font-semibold mb-1">
+                {post?.author?.name || 'Unknown Writer'}
+              </span>
+              <span className="block text-gray-700 text-sm font-semibold">{post.createdAt}</span>
+            </Link>
+          </div>
+          <h1 className="text-xl md:text-2xl font-bold text-blue-500 mb-3 uppercase">{post.title}</h1>
+          <p className="text-sm text-gray-600 mb-5">{post.desc || 'Post Description'}</p>
         </div>
 
+        {/* Action Buttons */}
+        <div className="flex gap-2 w-full md:w-auto md:absolute md:bottom-4 md:right-4">
+          {fieldInPostCard && (
+            <button onClick={handleDelete} className="bg-blue-500 text-white px-11 py-2 rounded-lg mr-1">
+              Delete
+            </button>
+          )}
+          <button 
+            className={`flex-1 md:flex-none px-5 py-2 rounded-lg  bg-blue-500'`}
+            onClick={handleLike}
+          >
+            { 'Like'} {likeCount}
+          </button>
+          <Link to={`/blogview/${post._id}`} className="flex-1 md:flex-none">
+            <button className="w-full bg-gray-700 text-white px-5 py-2 rounded-lg">Comment</button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PostCard;
 
 
-  )
-}
 
-export default PostCard ;

@@ -16,7 +16,6 @@ module.exports = async(email,subject,text)=> {
                 pass: process.env.PASS
             }
     });
-    console.log(process.env.USERK ,process.env.PASS,process.env.HOST,process.env.SERVICE,process.env.EMAIL_PORT,process.env.SECURE)
    
     await transporter.sendMail({
         from: process.env.USERK,
@@ -24,8 +23,8 @@ module.exports = async(email,subject,text)=> {
         subject: subject,
         text: text
     });
-    console.log("Email sent successfully!");
     } catch(error) {
+        console.log(error)
         console.log("Email not sent");
     }
 }  

@@ -1,33 +1,40 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const Like = require("../models/like");
 const Post = require("../models/post");
+const cloudinary = require("../utils/cloudinary")
 
-//for NEW POST
+
 const createPost = async (req, res) => {
-    const {title,desc }=req.body;
-    let picture ;
-    if(req.file){
-        picture = req.file.path
-        console.log(picture)
-
-    }
-    
-    console.log(picture)
     try {
-        const user = req.user.user._id
-        const savedPost= await Post.create({
-            title : title , 
-            desc : desc,
-            author :  user ,
-            picture : picture,
+        console.log(req.body)
+        const { title, desc , categories} = req.body;
+        let imageUrl = null;
+        if (req.file) {
+            
+            const result = await cloudinary.uploader.upload(req.file.path , {folder : 'Blog-webApp'});
+            imageUrl = result.secure_url;
+            console.log(result);
+        }
+
+
+        const user = req.user.user._id;
+        const savedPost = await Post.create({
+            title,
+            desc,
+            author: user,
+            categories : categories ,
+            picture: imageUrl, 
         });
-        return res.status(200).json(savedPost);
+
+        return res.status(200).json({savedPost , message : "post created sucessfully"});
     } catch (err) {
+        console.error('Error creating post:', err);
         return res.status(500).json(err);
     }
 };
 
-// for UPDATE POST
+
 const updatePost= async (req, res) => {
     try {
         const {title , desc , categories} = req.body;
@@ -35,7 +42,7 @@ const updatePost= async (req, res) => {
         const user = req.user.user._id;
         const post = await Post.findById(id);
      
-        // if (post.author.toString() === user.toString()) {
+        
 
 
             const updatedPost = await Post.findByIdAndUpdate(id,{
@@ -45,21 +52,21 @@ const updatePost= async (req, res) => {
 
             })
             await updatedPost.save();
-            // post.title=title;
-            // post.desc=desc;
-            // post.categories=categories
-            // await post.save()
+            
+            
+            
+            
             return res.status(200).json({msg:"updated post",updatedPost,post});
           
-        // } else {
-        //     res.status(401).json("You can update only your post!");
-        // }
+        
+        
+        
     } catch (err) {
         return res.status(500).json(err);
     }
 };
 
-// for DELETE POST
+
 const deletePost = async (req, res) => {
     try {
         const user = req.user.user._id
@@ -73,7 +80,7 @@ const deletePost = async (req, res) => {
             return res.status(404).json("Post not found");
         }
         
-        // Check if post.author exists and is not undefined before using toString
+        
         if (post.author && post.author.toString() === user.toString()) {
             await Post.findByIdAndDelete(id);
             return res.status(200).json("Post has been deleted");
@@ -87,7 +94,7 @@ const deletePost = async (req, res) => {
 };
 
 
-// for GET POST
+
 const getPost= async (req, res) => {
 
     const user = req.user.user._id;
@@ -95,7 +102,7 @@ const getPost= async (req, res) => {
 
         if(true){
             const post = await Post.find().sort({createdAt:-1}).populate('author')
-            return res.status(200).json(post);
+            return res.status(200).json({post , message : "post fetched sucessfully"});
         }
         
 
@@ -103,22 +110,22 @@ const getPost= async (req, res) => {
         return res.status(500).json(err);
     }
 };
-// finding post by user id
+
 const getPostById=async(req,res)=>{
     const {UserId}=req.params;
     try {
         const user=await User.findById(UserId);
         if(!user){
-            res.status(401).json({"mssg":"user not found"})
+            res.status(401).json({message:"user not found"})
         }
 
         const posts=await Post.find({author:UserId}).populate('author')
         const qty=posts.length;
         if(!posts){
-            res.status(401).json({"mssg":"posts not found",qty:posts})
+            res.status(401).json({message:"posts not found",qty:posts})
         }
 
-        res.status(200).json({posts:posts,qty:qty});
+        res.status(200).json({posts:posts,qty:qty , message : "post get sucessfully"});
     } catch (error) {
         
         res.status(500).json(error);
@@ -151,14 +158,73 @@ const getPostByCategory =async(req,res)=>{
         if(!post){
             res.status(404).json({msg:"post not found"})
         }
-        res.status(200).json(post)
+        res.status(200).json({post , message :`post of ${category} fetched sucessfully`})
     }
     catch(error){
         console.log(error)
 
     }
 }
+
+const a5getPost = async (req, res) => {
+    const { page = 1, search = '' } = req.query;
+    const limit = 5;
+    const skip = (page - 1) * limit;
+
+    try {
+        const query = {};        
+        if (search) {
+            query.$or = [
+                { title: { $regex: search, $options: 'i' } },
+                
+            ];
+        }        
+        
+        const matchingPosts = await Post.find(query).sort({ createdAt: -1 }).populate('author');
+        const paginatedPosts = matchingPosts.slice(skip, skip + limit);
+        const hasMore = skip + limit < matchingPosts.length;
+        return res.status(200).json({
+            posts: paginatedPosts,
+            message: "Posts fetched successfully",
+            hasMore,
+            totalResults: matchingPosts.length,
+            currentPage: page
+        });
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
+
+
+const getSearchPost = async (req, res) => {
+    const user = req.user.user._id;
+    const { search } = req.query; 
+    console.log(search)
+    try {
+        const query = {}; 
+
+        
+        if (search) {
+            query.$or = [
+                { title: { $regex: search } }, 
+                
+            ];
+        }
+
+        
+        const posts = await Post.find(query).sort({ createdAt: -1 }).populate('author');
+
+        return res.status(200).json({ posts, message: "Post fetched successfully" });
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
+
+
 module.exports ={
+    a5getPost ,
+    getSearchPost ,
     createPost , deletePost , updatePost , getPost,getPostById,getPostByPostId , getPostByCategory
 }
+
 

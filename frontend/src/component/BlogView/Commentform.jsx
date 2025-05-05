@@ -1,5 +1,4 @@
 import React, { useState ,useEffect} from 'react'
-import "../../css/commentform.css";
 import "./Blogview"
 import Commentcard from './Commentcard';
 const Commentform=({post ,setfetchComment})=> {
@@ -23,7 +22,7 @@ const Commentform=({post ,setfetchComment})=> {
         });
         if (response.ok) {
           const responseData = await response.json();
-          setComment(responseData.comment);
+          setComment(responseData?.comment);
           setfetchComment(true)
 
 
@@ -116,7 +115,7 @@ const Commentform=({post ,setfetchComment})=> {
 <div className="w-full space-y-4">
   <>
   {
-    comment.length===0 ? <div>"comment not found" </div> :
+    comment?.length===0 ? <div>"comment not found" </div> :
   
     comment.map((comment) => (
       <Commentcard comment={comment} />

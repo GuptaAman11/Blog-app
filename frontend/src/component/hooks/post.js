@@ -1,7 +1,8 @@
-import { useState , useEffect} from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+
 
 
 export function useFindTrendingPost() {
@@ -24,16 +25,49 @@ export function useFindTrendingPost() {
   return { trend, trendFind };
 
 }
+export function useAiToGetDescription() {
+  const [aiDesc , setAiDesc] = useState()
+  const aiDescription = async (postFormData) => {
+    console.log(postFormData , " this is postform")
+    try {
+      const authToken = localStorage.getItem('token');
 
+      
+
+      const response = await fetch(
+        'http://localhost:8000/api/v1/ai/gemini',{
+          method : "POST",
+          headers: {
+            'Content-Type' : 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body : JSON.stringify({
+            suggestion : postFormData
+          }),
+        }
+      );
+
+      if(response.ok){
+        const responseData = await response.json()
+        setAiDesc(responseData?.textResponse)
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('An error occurred while creating the post');
+    }
+  };
+
+  return { aiDescription , aiDesc };
+}
 
 export function useAddPost() {
-  const addPost = async (postFormData, file, setFile, setFetchPost) => {
+  const addPost = async (postFormData, postDescription , file, setFile, setFetchPost) => {
     try {
       const authToken = localStorage.getItem('token');
 
       const formData = new FormData();
       formData.append('title', postFormData.postTitle);
-      formData.append('desc', postFormData.postDesc);
+      formData.append('desc', postDescription);
       formData.append('categories', postFormData.postCategory);
       formData.append('picture', file);
 
@@ -48,12 +82,10 @@ export function useAddPost() {
         }
       );
 
-      const responseData = response.data;
       if (response.status === 200) {
-        toast.success('Post created successfully');
-        console.log(responseData);
+        toast.success(response.message);
         setFile(null);
-        setFetchPost(true);
+        return true ;
       } else {
         toast.error('Failed to create post');
       }
@@ -68,32 +100,45 @@ export function useAddPost() {
 
 
 export function useGetPost() {
+
   const[posts ,setposts] = useState([])
-  const[fetchPost , setFetchPost] = useState(false)
-  const [like , setLike] = useState(false)
+  const[queryWalaPost ,setQueryWalaposts] = useState([])
+
   const [cat ,setcat] = useState('')
-
-  const url = posts.picture ? posts.picture : 'https://in.images.search.yahoo.com/images/view;_ylt=Awr1SXOdGzBlhhkAQWS9HAx.;_ylu=c2VjA3NyBHNsawNpbWcEb2lkAzc3MmJiZjU3YjJkZmRiNGViODQ2NGMzOTI2YjgxOWYwBGdwb3MDMTcEaXQDYmluZw--?back=https%3A%2F%2Fin.images.search.yahoo.com%2Fsearch%2Fimages%3Fp%3Dvector%2Banimated%2Bimages%26type%3DE211IN885G0%26fr%3Dmcafee%26fr2%3Dpiv-web%26tab%3Dorganic%26ri%3D17&w=1920&h=1080&imgurl=vectorified.com%2Fimage%2F2d-vector-animation-10.png&rurl=https%3A%2F%2Fvectorified.com%2F2d-vector-animation&size=97.5KB&p=vector+animated+images&oid=772bbf57b2dfdb4eb8464c3926b819f0&fr2=piv-web&fr=mcafee&tt=2d+Vector+Animation+at+Vectorified.com+%7C+Collection+of+2d+Vector+...&b=0&ni=21&no=17&ts=&tab=organic&sigr=qjVAIJQDCVq.&sigb=ZnmC6cIQZJ_K&sigi=JfEAOPu_50gp&sigt=sXFkLVdVLHUT&.crumb=n7msA.koM5V&fr=mcafee&fr2=piv-web&type=E211IN885G0';
-
+ 
 
 //getALL post posted by all user
-  const getPost = async()=>{
-    const authToken = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:8000/api/v1/post/getPost`,{
-      method : 'GET' , 
-        headers :{
-          'Content-Type' : 'application/json',
-          'Authorization': `Bearer ${authToken}`
+  const getPost = async(loadMore , searchQuery)=>{
+    
+    
+      try {
+        const authToken = localStorage.getItem('token')
+        const response = await fetch(`http://localhost:8000/api/v1/post/get5post?page=${loadMore}&search=${searchQuery}`,{
+          method : 'GET' , 
+            headers :{
+              'Content-Type' : 'application/json',
+              'Authorization': `Bearer ${authToken}`
+            }
+        })
+        const responseData = await response.json()
+
+        
+        
+        if(response.ok){
+          if(searchQuery !== ""){
+            setQueryWalaposts((prevPost) => [...prevPost, ...responseData.posts]);
+          }else{
+            setposts((prevPosts) => [...prevPosts , ...responseData.posts]);
+          }
+          
         }
-    })
-    const responseData = await response.json()
-    if(response.ok){
-      setposts(responseData)
-      console.log("thi is the post",posts)
-      // console.log(responseData)
-      
-      
-    }
+      } catch (error) {
+        toast.error("errror while fetching the post please try again later")
+        console.log(error)
+      }
+    
+
+    
   }
 
   const getPostByCategory = async(cat)=>{
@@ -107,13 +152,15 @@ export function useGetPost() {
     })
     const responseData = await response.json()
     if(response.ok){
-      setposts(responseData)
-      // console.log(responseData)
+      setposts(responseData.post)
+      toast.success(responseData.message)
+
+      
       
       
     }
   }
-  return {posts,fetchPost,cat,getPostByCategory,getPost,setcat,setFetchPost ,like ,setLike}
+  return {setposts ,posts,cat,getPostByCategory,getPost,setcat ,queryWalaPost ,setQueryWalaposts }
   
 }
 
@@ -178,9 +225,7 @@ export function useUpdatePost(postFormData){
             navigate('/home')
     
         }
-        else {
-            console.log("something went worng on updating")
-        }
+       
     } catch (error) {
         console.log(error)
         
@@ -196,8 +241,9 @@ return {
 
 
 export function useLikeInPost () {
+  
 
-  const likePost = async (postId ,setLike) => {
+  const likePost = async (postId) => {
     try {
       const authToken = localStorage.getItem('token');
 
@@ -211,7 +257,6 @@ export function useLikeInPost () {
 
       if (response.ok) {
         const responseData = await response.json();
-        setLike(true)
 
       }
     } catch (error) {
@@ -221,3 +266,60 @@ export function useLikeInPost () {
   }
   return {likePost }
 }
+
+export function useGetPostByUserId() {
+  const [userPost , setUserPost] = useState([]) ;
+  const getPostByUserId = async(userId) => {
+    const authToken = localStorage.getItem('token')
+    try{
+      const response = await fetch(`http://localhost:8000/api/v1/post/getPostById/${userId}`,{
+        method : 'GET' ,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      const responseData = await response.json() ;
+      if(response.status === 200){
+        setUserPost(responseData) ;      
+        toast.success(responseData.message)
+        
+      }
+    }catch(error){
+      toast.error("error while getting a post ")
+      console.log(error)
+    }
+  }
+  return {
+    userPost , getPostByUserId
+  }
+}
+
+
+
+export function useDeletePost() {
+
+  const deletePost = async (postId) => {
+    try {
+      const authToken = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:8000/api/v1/post/deletePost/${postId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        toast.success('Post deleted successfully');
+      } else {
+        toast.error('Failed to delete post');
+      }
+    } catch (error) {
+      toast.error("You are not the owner of the post");
+    }
+  };
+
+  return { deletePost };
+};
+

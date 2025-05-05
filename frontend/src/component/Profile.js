@@ -1,108 +1,108 @@
-import React from 'react'
-// import {Link} from 'react-router-dom'
-// import { useSelector } from 'react-dom'
-import {Row, Col,Button, Form} from "react-bootstrap"
-// import { useDispatch,useSelector } from "react-redux";
-// import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PostCard from './Home/PostCard';
+import { useParams } from 'react-router-dom';
+import { useGetPostByUserId } from './hooks/post';
+import Spinner from './Spinner/Spinner';
+import { useGetUserInfo } from './hooks/user';
+import { useSupplier } from '../context/postRefresh';
+import { useFollow, useGetFollow } from './hooks/follow';
+import { useInfoSupplier } from '../context/AuthContext';
+const Profile = () => {
+  const {userinfo , loading} = useInfoSupplier()
+  console.log(userinfo, "this is the first render after init")
 
-// const Profile = () => {
-//   const [name, setName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [PIC,setPic] = useState();
-//   const [password, setPassword] = useState(""); 
-//   const [confirmPassword, setConfirmPassword] = useState("");
-//   const [picMessage, setPicMessage] = useState();
+  const params = useParams()
+  const {userId} = params ;
 
+  const {userDetails , getUserInfo} = useGetUserInfo()
+  const [fieldInPostCard , setFieldInPostCard] = useState(false)
+  useEffect(() => {
+    if (!loading) {
+      setFieldInPostCard(userinfo?._id === userId);
+    }
+  }, [loading, userinfo, userId]);
+  console.log(userinfo?._id , userId)
 
-// const dispatch = useDispatch();
+  const {triggerUpdate , shouldUpdate} = useSupplier()
+  const {follow } = useFollow()
+  const {getFollow , isFollow , followDetails} = useGetFollow()
 
-// const userLogin = useSelector((state) => state.userLogin);
-// const { userInfo } = userLogin;
+  
 
-// const userUpdate = useSelector((state) => state.userUpdate);
-// const { loading, error, success } = userUpdate;
+  useEffect(() => {
+    getUserInfo(userId);
+  }, [userId, shouldUpdate]);
 
-function Profile() {
-  const url="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fuser-profile&psig=AOvVaw099SrW63uhLKTSuVMzp1XM&ust=1696859381022000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCLiw5fjL5oEDFQAAAAAdAAAAABAE.png"
+  const { getPostByUserId, userPost } = useGetPostByUserId();
+  useEffect(() => {
+    getPostByUserId(userId);
+  }, [userId , shouldUpdate]);
+
+  const handleOnFollow = async () => {
+    await follow(userId);
+    triggerUpdate();
+  };
+
+  useEffect(()=>{
+    getFollow(userId) ;
+  },[userId , shouldUpdate])
+  
+
   return (
-    
-    <div>
+    <div className="profile-container max-w-6xl mx-auto mt-28">
+      {/* Profile Banner */}
       
-      
-      <h1 className='primary'>My Profile</h1>
-      <img className='imgstyle' alt='profile' src= {url}></img>
-      <Row className='profileContainer'>
 
-        <Col md={6}> 
-        <Form>
-          <Form.Group controlId="name">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter name"
-            // value={name}
-            // onChange={(e) => setName(e.target.value)} 
-           ></Form.Control>
-          </Form.Group>
+      <div className="profile-content mt-[-5rem] flex items-center justify-between">
+        {/* Profile Picture and Info */}
+        <div className="flex items-center">
+          <div className="profile-image rounded-full overflow-hidden w-32 h-32 border-4 border-white shadow-lg">
+            <img
+              src="	https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="profile-info ml-4">
+            <h2 className="text-2xl font-bold">{userDetails?.name}</h2>
+            <p className="text-gray-600">{userDetails?.email}</p>
+          </div>
+        </div>
 
-          <Form.Group controlId="email">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            // value={email}
-            // onChange={(e) => setEmail(e.target.value)} 
-           ></Form.Control>
-          </Form.Group>
+        {/* Edit Profile Button */}
+        <button onClick={() => handleOnFollow()} className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition">
+          {isFollow ? "unfollow" : "follow"}
+        </button>
+      </div>
 
-          <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter password"
-            // value={password}
-            // onChange={(e) => setPassword(e.target.value)} 
-           ></Form.Control>
-          </Form.Group>
+      {/* Profile Stats */}
+      <div className="profile-stats flex justify-around mt-8 p-4 bg-gray-100 rounded-lg shadow-md">
+        <div className="text-center">
+          <p className="text-xl font-bold">{userPost?.qty}</p>
+          <p className="text-gray-600">Posts</p>
+        </div>
+        <div className="text-center">
+          <p className="text-xl font-bold">{followDetails?.followerId?.length}</p>
+          <p className="text-gray-600">Followers</p>
+        </div>
+        <div className="text-center">
+          <p className="text-xl font-bold">{followDetails?.followingId?.length}</p>
+          <p className="text-gray-600">Following</p>
+        </div>
+      </div>
 
-          <Form.Group controlId="ConfirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            // value={confirmPassword}
-            // onChange={(e) => setConfirmPassword(e.target.value)} 
-           ></Form.Control>
-          </Form.Group>
-
-          <Form.Group controlId="PIC">
-          <Form.Label>Set Profile Picture</Form.Label>
-          {/* <Form.File
-           // onChange={(e) => postDetails(e.target.files[0])} 
-          //  id="custom-file"
-          //  type="image/png"
-          //  label="Upload Profile Picture"
-          //  custom
-           ></Form.File> */}
-          </Form.Group>
-
-          
-          <Button className='Button' type="submit" variant="primary">
-            Update
-          </Button>
-          
-           </Form>
-        </Col>
-        
-       <Col> 
-        {/* <img src={PIC} alt={name} className="profilePic" /> */}
-        </Col>
-      </Row>
-
-      
+      {/* My Posts Section */}
+      <div className="posts-section mt-8">
+        <h3 className="text-xl font-semibold mb-4">My Posts</h3>
+        <div className="posts-grid grid grid-cols-1 md:grid-cols-1 gap-6">
+          {userPost.qty === 0 ? (<div>You didnt posted anything</div>) :
+           userPost.posts ? userPost.posts.map((post) => (
+            <PostCard key={post._id} post={post} fieldInPostCard = {fieldInPostCard} />
+          )) : (<div><Spinner /></div>)}
+        </div>
+      </div>
     </div>
-  )
-}
-// }
+  );
+};
 
-export default Profile
+export default Profile;

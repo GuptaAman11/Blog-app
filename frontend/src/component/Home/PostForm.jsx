@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useAddPost } from '../hooks/post';
+import { useAddPost, useAiToGetDescription, useGetPost } from '../hooks/post';
+import { useSupplier } from '../../context/postRefresh';
 
-const PostForm = ({ setFetchPost }) => {
+const PostForm = () => {
   const { addPost } = useAddPost();
+  const {aiDesc , aiDescription} = useAiToGetDescription()
+  const {getPost} = useGetPost()
   const [file, setFile] = useState(null);
-
+  const {triggerUpdate} = useSupplier()
   const [postFormData, setPostFormData] = useState({
     postTitle: '',
-    postDesc: '',
     postCategory: '',
   });
+  const [postDescription , setPostDescription] = useState()
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -20,26 +23,58 @@ const PostForm = ({ setFetchPost }) => {
     });
   };
 
+  useEffect(() => {
+    if (aiDesc) {
+      setPostDescription(aiDesc); 
+    }
+  }, [aiDesc]);
+  
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    await addPost(postFormData, file, setFile, setFetchPost);
+    console.log(postFormData)
+    const success = await addPost(postFormData,postDescription , file, setFile);
+    if (success) {
+      setPostFormData({
+        postTitle: '',
+        postDesc: '',
+        postCategory: 'All_Category',
+      });
+      setFile(null);
+      triggerUpdate()
+
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) fileInput.value = '';
+    }
   };
 
+  const aiEvent = async(e) => {
+    e.preventDefault() ;
+    if (!postFormData.postTitle || postFormData.postTitle.trim() === "") {
+      toast.error("Title cannot be empty");
+    }else{
+      await aiDescription(postFormData.postTitle)
+    }
+    
+
+  }
+ 
+
   return (
-    <div className="p-4 flex items-center m-10 shadow-lg">
-      {/* Image on the right */}
-      <div className="w-1/2">
+    <div className="p-4 flex flex-col md:flex-row items-center m-4 md:m-10 shadow-lg">
+      {/* Image container */}
+      <div className="w-full md:w-1/2 mb-6 md:mb-0">
         <img
           src="https://tse1.mm.bing.net/th?id=OIP.7Grmlv6D3kK-sTfJbMYEawHaFp&pid=Api&P=0&h=180"
           alt="Your Image"
-          className="w-full h-auto rounded-full"
+          className="w-full max-w-md mx-auto h-auto rounded-full"
         />
       </div>
 
-      {/* Form on the left */}
-      <div className="w-1/2 p-8">
+      {/* Form container */}
+      <div className="w-full md:w-1/2 p-4 md:p-8">
         <div className="p-2 rounded shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Post Your Content</h2>
+          <h2 className="text-xl md:text-2xl font-bold mb-4">Post Your Content</h2>
           <form onSubmit={handleOnSubmit}>
             <div className="mb-4">
               <label htmlFor="title" className="block text-gray-600">
@@ -49,6 +84,7 @@ const PostForm = ({ setFetchPost }) => {
                 type="text"
                 id="title"
                 name="postTitle"
+                value={postFormData.postTitle}
                 placeholder="Enter a title"
                 onChange={handleOnChange}
                 required
@@ -62,6 +98,7 @@ const PostForm = ({ setFetchPost }) => {
               <select
                 onChange={handleOnChange}
                 name="postCategory"
+                value={postFormData.postCategory}
                 className="w-full py-2 focus:outline-none border-b border-gray-300"
               >
                 <option value="All_Category">All Category</option>
@@ -79,11 +116,13 @@ const PostForm = ({ setFetchPost }) => {
               <textarea
                 id="description"
                 name="postDesc"
+                value={postDescription}
                 placeholder="Enter a description"
                 required
-                onChange={handleOnChange}
+                onChange={(e)=>{setPostDescription(e.target.value)}}
                 className="w-full py-2 focus:outline-none border-b border-gray-300"
               ></textarea>
+              <button className='bg-blue-500 rounded-md p-2 text-white' onClick={aiEvent}>Generate</button>
             </div>
             <div className="mb-4">
               <label htmlFor="file" className="block text-gray-600">

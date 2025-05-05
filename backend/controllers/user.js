@@ -4,49 +4,56 @@ const jwt = require('jsonwebtoken')
 const Token = require('../models/token')
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
-
+const PendingUser = require("../models/pendingUser");
 
 
 const register = async (req, res) => {
     const { email, name, password } = req.body;
+    console.log(email , name , password)
     try {
         if (!email || !name || !password) {
-            return res.json({ msg: "all fields are required" })
+            return res.status(400).json({ message: "All fields are required" });
         }
 
-        const existingUser = await User.findOne({ email: email })
-        if (existingUser) {
-           return res.json({ msg: "user already exists" })
+        // Check if the user already exists
+        const pendingState = await PendingUser.findOne({ email }) ;
+        if (pendingState) {
+            return res.status(400).json({ message: "Email already send please check your mailbox" });
         }
 
-        const salt = await bcrypt.genSalt(Number(12));
-		const hashPassword = await bcrypt.hash(req.body.password, salt); 
-           const newUser = new User(
-            {
-                name: name,
-                email: email,
-                password: hashPassword
+        const existingUser = await User.findOne({email:email}) ;{
+            if (existingUser) {
+                return res.status(400).json({ message: "User already exists" });
             }
-
-        ) 
-        await newUser.save();
-
-        const token = await new Token({
-            userId: newUser._id,
-            token:crypto.randomBytes(32).toString("hex"),
-        }).save();
-        const url = `${process.env.BASE_URL}users/${newUser._id}/verify/${token.token}`;
-        console.log(url)
-        await sendEmail(newUser.email,"Verify Email",url);
+    
+        }
 
 
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 12);
 
-        return res.json({ msg: "An Email is sent to your account, please verify" ,token:token , userId: newUser._id })
+        // Create a pending user
+        const pendingUser = new PendingUser({ name, email, password: hashedPassword });
+        await pendingUser.save();
+
+        // Generate a verification token associated with the pending user
+        const token = new Token({
+            userId: pendingUser._id,
+            token: crypto.randomBytes(32).toString("hex")
+        });
+        await token.save();
+        console.log(token ,"token") ;
+
+        // Send verification email
+        const verificationUrl = `${process.env.BASE_URL}verify/${token.token}`;
+        await sendEmail(email, "Verify Email", `Click to verify your email: ${verificationUrl}`);
+
+        res.status(200).json({ message: "Verification email sent. Please check your inbox." });
     } catch (error) {
-        console.log(error)
-       return res.json({ msg: error })
+        console.error("Registration error:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
-}
+};
 
 const login = async (req, res) => {
     const { email, password } = req.body;
@@ -55,9 +62,9 @@ const login = async (req, res) => {
             return res.json({ mssg: "all fileds are required" })
         }
 
-        const user = await User.findOne({ email: email, verified: true });
+        const user = await User.findOne({ email: email });
         if (!user) {
-            return res.status(401).json({msg:"user not found"})
+            return res.status(401).json({message:"user not found"})
         }
         const comparepassword = await bcrypt.compare(password, user.password)
         if (comparepassword) {
@@ -79,10 +86,22 @@ const login = async (req, res) => {
 
     } catch (error) {
         return res.json(error);
-        console.log(error)
     }
 }
 
+const getUserById = async(req , res) => {
+    const {userId} = req.params ;
+    try {
+        const user = await User.findById(userId) ;
+        if(!user){
+            return res.status(300).json({message : "user not found"})
+        }
+        return res.status(200).json(user) ;
+    } catch (error) {
+        return res.json(error)
+    }
+
+}
 // const updateUserProfile = asyncHandler (async (req, res) => {
 //   const user =await User.findById(req.user._id);
 
@@ -112,5 +131,6 @@ const login = async (req, res) => {
 module.exports = {
     register,
     login,
+    getUserById
     // updateUserProfile
 }

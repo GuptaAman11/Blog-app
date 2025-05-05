@@ -3,12 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthContextProvider } from './context/AuthContext';
+import { PostRefreshProvider } from './context/postRefresh';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <AuthContextProvider>
+        <PostRefreshProvider>
+        <App />
+
+        </PostRefreshProvider>
+    </AuthContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

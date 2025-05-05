@@ -1,78 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
-
-import Main from './component/Login/Main';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import Home from './component/Home/Home';
-
-import Blogview from './component/BlogView/Blogview';
-import Profile from './component/Profile'
-import UpdatePost from './component/Home/UpdatePost';
-import Navbar from './component/Home/Navbar';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import About from './component/About'
-import Signup from './component/Login/Signup';
+
+import Navbar from './component/Home/Navbar';
+import ShowNavBar from './component/Home/ShowNavbar/ShowNavBar';
 import Authe from './component/Home/utils/Authe';
+
+import Home from './component/Home/Home';
+import Blogview from './component/BlogView/Blogview';
+import Profile from './component/Profile';
+import UpdatePost from './component/Home/UpdatePost';
+import About from './component/About';
+import Signup from './component/Login/Signup';
 import Login1 from './component/Login/Login1';
 import TrendingBlogs from './component/Home/TrendingBlogs';
-import ShowNavBar from './component/Home/ShowNavbar/ShowNavBar';
 import EmailVerify from './component/Home/EmailVerify/EmailVerify';
 
-
-
 function App() {
+  const [searchQuery , setSearchQuery] =useState("") ;
+
   return (
-
-    
-
     <div>
-              <ToastContainer />
-
-
-     
+      <ToastContainer />
       <Router>
-      <div>
         <ShowNavBar>
-          <Navbar />
+          <Navbar setSearchQuery = {setSearchQuery} />
         </ShowNavBar>
-        
-      </div>
-        
-      
         <Routes>
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/login' element={<Login1 />} />
+          <Route path='/verify/:token' element={<EmailVerify />} />
 
 
-
-          <Route path='/login' element={<Login1 /> } />
-          <Route path='/signup' element={<Signup /> } />
-
-          <Route path='/home' element={<Home />} />
-
-          
-        
-          <Route path='/home/blogview/:postId' element={<Blogview />} />
-
-          <Route path='/Profile' element={<Profile/>} />
-          <Route path='/trends' element={<TrendingBlogs />} />
-
-          
-          <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
-
-          <Route path='/update/:postId' element={<UpdatePost />} />
-
-            <Route path='/about' element={<About /> } />
-
-
+          {/* Protected Routes */}
+          <Route element={<Authe />}>
+            <Route path='/home' element={<Home searchQuery = {searchQuery}/>}  />
+            <Route path='/blogview/:postId' element={<Blogview />} />
+            <Route path='/profile/:userId' element={<Profile />} searchQuery = {searchQuery} />
+            <Route path='/trends' element={<TrendingBlogs />} />
+            <Route path='/update/:postId' element={<UpdatePost />} />
+            <Route path='/about' element={<About />} />
+          </Route>
         </Routes>
-      
-    </Router>
+      </Router>
     </div>
-
-  
   );
 }
 
 export default App;
-

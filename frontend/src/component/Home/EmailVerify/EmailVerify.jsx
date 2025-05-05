@@ -6,13 +6,12 @@ const EmailVerify = () => {
 	const [validUrl, setValidUrl] = useState(true);
 	const param = useParams();
     
-    console.log(param.id ,param.token)
+    console.log(param.token)
 	useEffect(() => {
 		const verifyEmailUrl = async () => {
 			try {
-				const url = `http://localhost:8000/api/v1/users/${param.id}/verify/${param.token}`;
+				const url = `http://localhost:8000/api/v1/users/verify/${param?.token}`;
 				const { data } = await axios.get(url);
-				console.log("this",data);
 				setValidUrl(true);
 			} catch (error) {
 				console.log(error);
@@ -23,18 +22,23 @@ const EmailVerify = () => {
 	}, [param]);
 
 	return (
-		<>
+		<div className="flex items-center justify-center min-h-screen bg-gray-100">
 			{validUrl ? (
-				<div>
-					<h1>Email verified successfully</h1>
+				<div className="text-center bg-white p-10 rounded shadow-md">
+					<h1 className="text-2xl font-bold text-green-600 mb-4">Email verified successfully</h1>
 					<Link to="/login">
-						<button>Login</button>
+						<button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow">
+							Login
+						</button>
 					</Link>
 				</div>
 			) : (
-				<h1>404 Not Found</h1>
+				<div className="text-center bg-white p-10 rounded shadow-md">
+					<h1 className="text-2xl font-bold text-red-600 mb-4">404 Not Found</h1>
+					<p className="text-gray-500">The verification link is invalid or has expired.</p>
+				</div>
 			)}
-		</>
+		</div>
 	);
 };
 
