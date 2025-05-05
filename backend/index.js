@@ -9,6 +9,7 @@ const aiRoutes = require('./routes/ai.routes')
 const cors = require('cors')
 const detailsRoutes = require('./routes/details')
 const scheduleCleanupJob = require("./utils/cleanUp");
+const dotenv = require('dotenv').config()
 
 
 const app = express()
@@ -17,7 +18,7 @@ app.use(cors())
 
 
 
-app.listen(8000, () => {
+app.listen(process.env.PORT, () => {
     console.log("server started")
 })
 app.use(express.json())
